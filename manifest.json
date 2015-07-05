@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Test",
+  "short_name": "Test",
+  "description": "",
+  "version": "0.0.1",
+  "minimum_chrome_version": "38",
+
+  "icons": {
+    "16": "assets/et-game-icon-16x16.png",
+    "128": "assets/et-game-icon-128x128wbg.png"
+  },
+
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  }
+}
