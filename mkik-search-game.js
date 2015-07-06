@@ -63,47 +63,41 @@ var vertexColorSize=3;
 
 var rotXZStep=2.5;
 var rotYZStep=2.5;
-var maxYZAngle=80; 
+var maxYZAngle=90; 
 
 var moveStep=0.5;
 var XMargin = 30;
 var YMargin = 30;
 var ZMargin = 30;
 
-var sectorRectangle = {};
-
-{ 
-    sectorRectangle.nrOfLines = 4;
 /*
-    sectorRectangle.linesVertices = new Float32Array( [
-	-1/3, -1/3, -1.0,      -1/3,  1/3, -1.0,
-	-1/3,  1/3, -1.0,       1/3,  1/3, -1.0,
-	 1/3,  1/3, -1.0,       1/3, -1/3, -1.0,
-	 1/3, -1/3, -1.0,      -1/3, -1/3, -1.0
-    ]);
-*/
-    sectorRectangle.linesVertices = new Float32Array( [
-	-1/3, -1, -1.0,      -1/3,  1, -1.0,
-	-1,  1/3, -1.0,       1,  1/3, -1.0,
-	 1/3,  1, -1.0,       1/3, -1, -1.0,
-	 1, -1/3, -1.0,      -1, -1/3, -1.0
-    ]);
+  var sectorRectangle = {};
+
+  { 
+  sectorRectangle.nrOfLines = 4;
+  sectorRectangle.linesVertices = new Float32Array( [
+  -1/3, -1, -1.0,      -1/3,  1, -1.0,
+  -1,  1/3, -1.0,       1,  1/3, -1.0,
+  1/3,  1, -1.0,       1/3, -1, -1.0,
+  1, -1/3, -1.0,      -1, -1/3, -1.0
+  ]);
 
   
   sectorRectangle.linesColors = new Float32Array( [
-	1,0,0, 1,0,0,
-	1,0,0, 1,0,0,
-	1,0,0, 1,0,0,
-	1,0,0, 1,0,0
-    ]);
-    sectorRectangle.nrOfTriangles=0;
-    sectorRectangle.trianglesVertices = new Float32Array( [
-    ] );
+  1,0,0, 1,0,0,
+  1,0,0, 1,0,0,
+  1,0,0, 1,0,0,
+  1,0,0, 1,0,0
+  ]);
+  sectorRectangle.nrOfTriangles=0;
+  sectorRectangle.trianglesVertices = new Float32Array( [
+  ] );
 
-    sectorRectangle.trianglesColors = new Float32Array( [
-    ] );
+  sectorRectangle.trianglesColors = new Float32Array( [
+  ] );
 
-}
+  }
+*/
 
 var frameBox = {}; // new Object(); // framebox for better orientation
 
@@ -493,7 +487,22 @@ function onWindowResize() {
 
 }
 
+var alertAction = false;
 
+function setAction( newAction){
+	currentAction = newAction ;
+        alertAction = true;
+	switch (currentAction) {
+	case ACTION_MOVE : 
+	    drawAlert(moveMsg, 2); 
+	    break;
+	case ACTION_ROTATE : 
+	    drawAlert(rotateMsg, 2); 
+	    break;
+
+	};
+        
+}
 
 function onMouseDown(evt){
     var wth = parseInt(window.innerWidth);
@@ -534,10 +543,12 @@ function onMouseDown(evt){
 	traveler.rotYZ=0; drawScene();
 	break;
     case "0,0":
-	currentAction = ACTION_MOVE;
+	// currentAction = ACTION_MOVE;
+	setAction(ACTION_MOVE);
 	break;
     case "0,2":
-	currentAction = ACTION_ROTATE;
+	// currentAction = ACTION_ROTATE;
+	setAction(ACTION_ROTATE);
 	break;
 
     }
@@ -555,25 +566,31 @@ function onKeyDown(e){
 
     stopIntervalAction();
 
-    code=e.keyCode? e.keyCode : e.charCode;
+    // var code=e.keyCode? e.keyCode : e.charCode;
+    var code= e.which || e.keyCode;
     switch(code)
     {
     case 38: // up
+    case 73: // I
 	up();
 	break;
-    case 40:
+    case 40: // down
+    case 75: // K
 	down();
 	break;
-    case 37:
+    case 37: // left
+    case 74:// J
 	left();
 	break;
-    case 39:
+    case 39:// right
+    case 76: // L
 	right();
 	break;
     case 70: // F
 	forward();
 	break;
     case 66: // B
+    case 86: // V
 	back();
 	break;
     case 32: // space
@@ -584,7 +601,12 @@ function onKeyDown(e){
     case 69: // E
 	// toggleMonoStereo();break;
     case 77: // M
-	currentAction = ACTION_MOVE;
+	// currentAction = ACTION_MOVE;
+	setAction(ACTION_MOVE);
+	break;
+    case 82: // R
+	// currentAction = ACTION_ROTATE;
+	setAction(ACTION_ROTATE);
 	break;
     case 191: // ?
 	// help(); break;
@@ -609,9 +631,6 @@ function onKeyDown(e){
 	alert("remaining tokens: "+tokenPositions.remaining);
 	break;
 
-    case 82: // R
-	currentAction = ACTION_ROTATE;
-	break;
     case 83: // S
 	// linkSelect();
 	break;
@@ -736,7 +755,30 @@ function initBuffers(graph) {
 
 }
 
+var IdMatrix = glMatrix4(1,   0,   0,   0,
+			 0,   1,   0,   0,
+			 0,   0,   1,   0,
+			 0,   0,   0,   1);
 
+function drawAlert(alertGraph, size) {
+    var	myMatrix=		    glMatrix4(
+	1/size,      0,      0,    0,
+	0,      1/size,      0,    0,
+        0,           0, 1/size,   -1,
+        0,           0,      0,    1
+    ) ;
+    
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
+			myMatrix
+		       );
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
+    gl.clearColor(0.0, 0.0, 0.0, 1.0); // BLACK	
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    drawGraph(alertGraph);
+    // restore matrices 
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+}
 
 function drawScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -747,6 +789,20 @@ function drawScene() {
         collectedAlert=false;
 	return;
     }
+    if(alertAction){
+        alertAction=false;
+	switch (currentAction) {
+	case ACTION_MOVE : 
+	    drawAlert(moveMsg, 2); 
+	    break;
+	case ACTION_ROTATE : 
+	    drawAlert(rotateMsg, 2); 
+	    break;
+
+	};
+	return;
+    }
+
     gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -763,21 +819,17 @@ function drawScene() {
 
     drawTokens();
 
-    {   
-	var IdMatrix = glMatrix4(1,   0,   0,   0,
-				  0,   1,   0,   0,
-				  0,   0,   1,   0,
-				  0,   0,   0,   1);
+    {   // draw sectors
 	gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
 			    glMatrix4(
 				1/6,   0,   0,   0,
-				  0, 1/6,   0,   0,
-                                  0,   0, 1/6,  -1,
-                                  0,   0,   0,   1
+				0, 1/6,   0,   0,
+                                0,   0, 1/6,  -1,
+                                0,   0,   0,   1
 			    ) 
 			   );
 	gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
-			   
+	
 	drawGraph(sectors);
 	// restore matrices 
 	gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
@@ -854,6 +906,7 @@ function webGLStart() {
     // ctx = canvas.getContext("2d");
     initGL(canvas);
     initShaders();
+    // canvas.setAttribute("onkeypress","onKeyDown(e)");
 
     initBuffers(scene);
     initBuffers(token);
@@ -861,6 +914,8 @@ function webGLStart() {
     initBuffers(frameBox);
     // initBuffers(sectorRectangle);
     initBuffers(sectors);
+    initBuffers(moveMsg);
+    initBuffers(rotateMsg);
 
     //        gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
