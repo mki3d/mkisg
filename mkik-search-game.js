@@ -22,84 +22,9 @@
 
 /*** et-webgl.js -- BEGIN  ***/
 
-/* GLOBAL VARIABLES 1 */
-/*jshint multistr: true */
-var VERTEX_SHADER_STRING = " \
-attribute vec3 aVertexPosition; \
-attribute vec4 aVertexColor; \
-uniform mat4 uMVMatrix; \
-uniform mat4 uPMatrix; \
-uniform vec3 mov; \
-varying vec4 vColor; \
-void main(void) { \
-gl_Position = uPMatrix * uMVMatrix * vec4(mov+aVertexPosition, 1.0); \
-vColor = aVertexColor; \
-}";
-
-var FRAGMENT_SHADER_STRING = " \
-precision mediump float; \
-varying vec4 vColor; \
-void main(void) { \
-gl_FragColor = vColor; \
-}";
 
 
-// var bgColor=[0,0,0]; // defined in test.js
 
-// projection parameters
-
-
-var projection = {}; // new Object();
-projection.zNear = 0.25;
-projection.zFar  = 300;
-projection.zoomY = 3.0;
-projection.screenX=500;
-projection.screenY=500;
-
-// var traveler= new Object(); // defined in test.js
-
-var vertexPositionSize=3;
-var vertexColorSize=3;
-
-var rotXZStep=2.5;
-var rotYZStep=2.5;
-var maxYZAngle=90; 
-
-var moveStep=0.5;
-var XMargin = 30;
-var YMargin = 30;
-var ZMargin = 30;
-
-/*
-  var sectorRectangle = {};
-
-  { 
-  sectorRectangle.nrOfLines = 4;
-  sectorRectangle.linesVertices = new Float32Array( [
-  -1/3, -1, -1.0,      -1/3,  1, -1.0,
-  -1,  1/3, -1.0,       1,  1/3, -1.0,
-  1/3,  1, -1.0,       1/3, -1, -1.0,
-  1, -1/3, -1.0,      -1, -1/3, -1.0
-  ]);
-
-  
-  sectorRectangle.linesColors = new Float32Array( [
-  1,0,0, 1,0,0,
-  1,0,0, 1,0,0,
-  1,0,0, 1,0,0,
-  1,0,0, 1,0,0
-  ]);
-  sectorRectangle.nrOfTriangles=0;
-  sectorRectangle.trianglesVertices = new Float32Array( [
-  ] );
-
-  sectorRectangle.trianglesColors = new Float32Array( [
-  ] );
-
-  }
-*/
-
-var frameBox = {}; // new Object(); // framebox for better orientation
 
 function makeFrameBox() {
     var v000= [traveler.vMin[0]-XMargin, traveler.vMin[1]-YMargin,traveler.vMin[2]-ZMargin ];
@@ -156,12 +81,6 @@ function makeFrameBox() {
     ] );
 }
 
-/* TOKENS */
-var MAX_TOKENS=10;
-var tokenPositions=[];
-
-
-var startTime;
 
 function rotateXZ(traveler, angle)
 {
@@ -206,8 +125,6 @@ function maxDistance(v1,v2)
     return Math.max(dx,dy,dz); 
 }
 
-var collectedAlert = false;
-
 function checkTokens()
 {
     var i;
@@ -237,15 +154,6 @@ function generateTokenPositions(){
     tokenPositions.remaining=MAX_TOKENS;
 }
 
-
-/** ACTIONS **/
-
-var ACTION_MOVE=0;
-var ACTION_ROTATE=1;
-var NR_OF_ACTIONS=2;
-
-
-var currentAction=ACTION_ROTATE;
 
 function up()
 {
@@ -328,41 +236,6 @@ function back()
 }
 
 
-/*
-  </script>
-
-  <!-- input data -->
-  <script type="text/javascript" src="./test.js"></script>
-
-  <script>
-*/
-
-/*** et-webgl.js -- BEGIN  ***/
-
-/* GLOBAL VARIABLES 2 */
-
-
-// model-view matrix
-var mvMatrix = glMatrix4( 
-    1,0,0,0,
-    0,1,0,0,
-    0,0,1,0,
-    0,0,0,1
-); 
-
-// projection matrix
-var pMatrix = glMatrix4( 
-    1,0,0,0,
-    0,1,0,0,
-    0,0,1,0,
-    0,0,0,1
-); 
-
-// initial movement
-var mov;
-
-var linesBuffer;
-var trianglesBuffer;
 
 
 function glVector3( x,y,z ){
@@ -380,6 +253,12 @@ function glMatrix4(  xx, yx, zx, wx,
                                zx, zy, zz, zw,
                                wx, wy, wz, ww ] );
 }
+
+var IdMatrix = glMatrix4(1,   0,   0,   0,
+			 0,   1,   0,   0,
+			 0,   0,   1,   0,
+			 0,   0,   0,   1);
+
 
 
 function projectionMatrix(projection)
@@ -447,8 +326,7 @@ function modelViewMatrix(viewer)
 			 0,   0,      0,    1  );
 }
 
-/// CALLBACKS
-var intervalAction=null;
+// CALLBACKS
 
 function stopIntervalAction(){
     if(intervalAction !== null) {
@@ -458,13 +336,6 @@ function stopIntervalAction(){
 }
 
 function onWindowResize() {
-
-    /*
-      if(intervalAction != null) {
-      window.clearInterval(intervalAction);
-      intervalAction=null
-      }
-    */
 
     stopIntervalAction();
 
@@ -487,37 +358,33 @@ function onWindowResize() {
 
 }
 
-var alertAction = false;
-
 function setAction( newAction){
-	currentAction = newAction ;
-        alertAction = true;
-	switch (currentAction) {
-	case ACTION_MOVE : 
-	    drawAlert(moveMsg, 2); 
-	    break;
-	case ACTION_ROTATE : 
-	    drawAlert(rotateMsg, 2); 
-	    break;
+    currentAction = newAction ;
+    alertAction = true;
+    switch (currentAction) {
+    case ACTION_MOVE : 
+	drawAlert(moveMsg, 2); 
+	break;
+    case ACTION_ROTATE : 
+	drawAlert(rotateMsg, 2); 
+	break;
 
-	};
-        
+    };
+    
 }
 
 function onMouseDown(evt){
+
+    if(intervalAction !== null) {
+	stopIntervalAction();
+	return;
+    }
+
     var wth = parseInt(window.innerWidth);
     var hth = parseInt(window.innerHeight);
     var xSector= Math.floor(3*evt.clientX/wth);
     var ySector= Math.floor(3*evt.clientY/hth);
-
-    sectorString = ""+xSector+","+ySector;
-
-    if(intervalAction !== null) {
-	// window.clearInterval(intervalAction);
-	// intervalAction=null
-	stopIntervalAction();
-	return;
-    }
+    var sectorString = ""+xSector+","+ySector;
 
     switch(sectorString)
     {
@@ -552,17 +419,9 @@ function onMouseDown(evt){
 	break;
 
     }
-    // drawScene(); // included in actions
-    // alert("mouse down: "+evt.clientX+","+ evt.clientY+":"+sectorString);
 }
 
 function onKeyDown(e){
-    /*
-      if(intervalAction != null) {
-      window.clearInterval(intervalAction);
-      intervalAction=null
-      }
-    */
 
     stopIntervalAction();
 
@@ -594,12 +453,8 @@ function onKeyDown(e){
 	back();
 	break;
     case 32: // space
-    case 76: // L
 	traveler.rotYZ=0; drawScene();
-	// rotationReset();
 	break;
-    case 69: // E
-	// toggleMonoStereo();break;
     case 77: // M
 	// currentAction = ACTION_MOVE;
 	setAction(ACTION_MOVE);
@@ -608,50 +463,28 @@ function onKeyDown(e){
 	// currentAction = ACTION_ROTATE;
 	setAction(ACTION_ROTATE);
 	break;
+    case 81: // Q
+	// alert("remaining tokens: "+tokenPositions.remaining);
+	break;
+/*
+    case 69: // E
     case 191: // ?
-	// help(); break;
     case 68: // D
-	// dump(); break;
     case 13: // enter
     case 187: // +
-	// linkingPlus();
-	break;
     case 27: // escape
     case 189: // -
-	// linkingMinus();
-	break;
     case 86: // V
-	break;
     case 46: // Delete
     case 51: // #
-	// deleteSelected();
-	// unlink();
-	break;
-    case 81: // Q
-	alert("remaining tokens: "+tokenPositions.remaining);
-	break;
-
     case 83: // S
-	// linkSelect();
-	break;
     case 65: // A
-	// selectAll();
-	break;
     case 56: // *
-	// starSelect();
-	break;
     case 88: // X
-	// toggleSelections();
-	break;
     case 74: // J
-	// jumpToNearestEndtpoint();
 	break;
-
+*/
     }
-    // editor.redraw();
-    // alert(code); // for tests
-    // drawScene(); // included in actions
-    // alert("drawn");
 }
 
 
@@ -659,7 +492,6 @@ function onKeyDown(e){
 
 /*** et-webgl.js -- END  ***/
 
-var gl;
 function initGL(canvas) {
     try {
         gl = canvas.getContext("experimental-webgl");
@@ -674,8 +506,8 @@ function initGL(canvas) {
 
 
 
-var shaderProgram;
 
+// SHADER PROGRAM
 
 function tryToCompileShader(shader)
 {
@@ -725,14 +557,11 @@ function initShaders() { // compile and link shader programs and  init their atr
 
 
 
-
 function setMatrixUniforms() {
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
 }
 
-var triangleVertexPositionBuffer;
-var squareVertexPositionBuffer;
 
 function initBuffers(graph) {
 
@@ -755,13 +584,9 @@ function initBuffers(graph) {
 
 }
 
-var IdMatrix = glMatrix4(1,   0,   0,   0,
-			 0,   1,   0,   0,
-			 0,   0,   1,   0,
-			 0,   0,   0,   1);
 
 function drawAlert(alertGraph, size) {
-    var	myMatrix=		    glMatrix4(
+    var	myMatrix= glMatrix4(
 	1/size,      0,      0,    0,
 	0,      1/size,      0,    0,
         0,           0, 1/size,   -1,
@@ -917,7 +742,6 @@ function webGLStart() {
     initBuffers(moveMsg);
     initBuffers(rotateMsg);
 
-    //        gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
     gl.enable(gl.DEPTH_TEST);
 
