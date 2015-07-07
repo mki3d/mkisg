@@ -26,7 +26,7 @@ function makeFrameBox() {
     var v110= [traveler.vMax[0]+XMargin, traveler.vMax[1]+YMargin,traveler.vMin[2]-ZMargin ];
     var v111= [traveler.vMax[0]+XMargin, traveler.vMax[1]+YMargin,traveler.vMax[2]+ZMargin ];
 
-
+    frameBox = {}; // create new object
     frameBox.nrOfLines=  12;
     frameBox.linesVertices = new Float32Array( [
 	v000[0],v000[1],v000[2], v001[0],v001[1],v001[2],

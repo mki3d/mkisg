@@ -693,7 +693,6 @@ function webGLStart() {
         restoreStage(i);
 	initBuffers(scene);
 	initBuffers(token);
-	makeFrameBox();
 	initBuffers(frameBox);
     }
 
