@@ -647,8 +647,14 @@ function drawGraph(graph) {
 
 function startGame()
 {
-    var idx = Math.floor(Math.random()*stageArray.length);
-    restoreStage(idx);
+    restoreStage(stageArray.length-1);
+    /* swap the last stage with rangom other for the next time stage */
+    /* we assume that there are at least two stages */
+    var idx = Math.floor(Math.random()*(stageArray.length-1));
+    var tmp= stageArray[idx];
+    stageArray[idx]=stageArray[stageArray.length-1];
+    stageArray[stageArray.length-1]=tmp;
+    
     generateTokenPositions();
     /*
     alert("MKI SEARCHING GAME:\n\n"+
