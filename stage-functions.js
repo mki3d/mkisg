@@ -3,6 +3,7 @@
 function insertNewStage(){
 var idx = stageArray.length;
 stageArray[idx]={};
+stageArray[idx].bgColor=bgColor;
 stageArray[idx].scene=scene;
 stageArray[idx].traveler=traveler;
 stageArray[idx].token=token;
@@ -72,6 +73,7 @@ function makeFrameBox() {
 
 function restoreStage(idx)
 {
+bgColor=stageArray[idx].bgColor;
 scene=stageArray[idx].scene;
 traveler=stageArray[idx].traveler;
 token=stageArray[idx].token;

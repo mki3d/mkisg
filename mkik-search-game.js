@@ -50,8 +50,10 @@ function move(traveler, vector)
 	traveler.z = v[2];
 	checkTokens();
     }
-    else stopIntervalAction();
-
+    else {
+	stopIntervalAction();
+	setAction(ACTION_ROTATE);
+    }
 }
 
 
@@ -648,14 +650,29 @@ function drawGraph(graph) {
 function startGame()
 {
     restoreStage(stageArray.length-1);
-    /* swap the last stage with rangom other for the next time stage */
-    /* we assume that there are at least two stages */
-    var idx = Math.floor(Math.random()*(stageArray.length-1));
-    var tmp= stageArray[idx];
-    stageArray[idx]=stageArray[stageArray.length-1];
-    stageArray[stageArray.length-1]=tmp;
-    
+    if(visitedStages==0){
+        stageArray.pop(); // use welcome stage only once
+    }
+    else{
+	/* swap the last stage with rangom other for the next time stage */
+	/* we assume that there are still at least two stages */
+	var idx = Math.floor(Math.random()*(stageArray.length-1));
+	var tmp= stageArray[idx];
+	stageArray[idx]=stageArray[stageArray.length-1];
+	stageArray[stageArray.length-1]=tmp;
+    }
+
     generateTokenPositions();
+    if(visitedStages==0){
+	// only one tokene on welcome stage
+	var i;
+	for(i=0; i<MAX_TOKENS-1; i++) {
+            tokenPositions[i].collected= true;
+            tokenPositions.remaining--;
+	}
+    }
+    visitedStages++; // statistics
+
     /*
     alert("MKI SEARCHING GAME:\n\n"+
 	  "FIND AND COLLECT "+tokenPositions.remaining+" TOKENS!\n\n"+

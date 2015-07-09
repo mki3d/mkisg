@@ -66,8 +66,8 @@ var ZMargin = 30;
 
 
 /* TOKENS */
-// var MAX_TOKENS=10; // for real game
-var MAX_TOKENS=2; // for tests
+ var MAX_TOKENS=10; // for real game
+// var MAX_TOKENS=2; // for tests
 var tokenPositions=[];
 
 /* TIMING */
@@ -89,3 +89,6 @@ var currentAction=ACTION_ROTATE;
 
 var intervalAction=null;
 
+/* STATS */
+
+var visitedStages=0;
