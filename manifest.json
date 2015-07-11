@@ -5,6 +5,7 @@
     "description": "Searching in 3D stages",
     "version": "0.0.1",
     "minimum_chrome_version": "38",
+    "author": "Marcin Kik mki1967@gmail.com",
 
     "icons": {
 	"16": "assets/mki_icon_16.png",

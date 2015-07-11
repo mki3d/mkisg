@@ -670,6 +670,7 @@ function startGame()
             tokenPositions[i].collected= true;
             tokenPositions.remaining--;
 	}
+        tokenPositions[i]=[4,0.5,0];
     }
     visitedStages++; // statistics
 
