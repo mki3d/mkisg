@@ -1,5 +1,5 @@
 bgColor= [ 0.000000, 0.000000, 1.000000 ] ;
-traveler= new Object();
+traveler= {};
 traveler.x= 17.005341 ;
 traveler.y= 8.000000 ;
 traveler.z= -44.345322 ;
@@ -7,7 +7,7 @@ traveler.rotXZ= 35 ;
 traveler.rotYZ= 0 ;
 traveler.vMin= [ -28.180321, -18.950447, -27.888525 ] ;
 traveler.vMax= [ 15.236073, 23.723429, 10.944266 ] ;
-scene = new Object();
+scene = {};
 scene.nrOfLines= 720 ;
 scene.linesVertices = new Float32Array( [
   1.999999 , -0.000001, 5.472133,
@@ -7214,7 +7214,7 @@ scene.trianglesColors = new Float32Array( [
   0.603818 , 0.603818, 0.000000,
   0.603818 , 0.603818, 0.000000,
   0.603818 , 0.603818, 0.000000  ]);
-token = new Object();
+token = {};
 token.nrOfLines= 0 ;
 token.linesVertices = new Float32Array( [
   ]);

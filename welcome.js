@@ -1,5 +1,5 @@
 bgColor= [ 0.000000, 0.000000, 0.000000 ] ;
-traveler= new Object();
+traveler= {};
 traveler.x= 0.000000 ;
 traveler.y= 0.000000 ;
 traveler.z= -20.000000 ;
@@ -7,7 +7,7 @@ traveler.rotXZ= 0 ;
 traveler.rotYZ= 0 ;
 traveler.vMin= [ -9.000000, -7.000000, -0.000000 ] ;
 traveler.vMax= [ 9.000000, 7.000000, 3.233161 ] ;
-scene = new Object();
+scene = {};
 scene.nrOfLines= 847 ;
 scene.linesVertices = new Float32Array( [
   -5.640000 , 4.600000, -0.000000,
