@@ -3,6 +3,10 @@ by mki1967@gmail.com
 
 This is the version of MKI SEARCHING GAME that can be run as Chrome application offline.
 
+<a target="_blank" href="https://chrome.google.com/webstore/detail/mki-searching-game/kdajlgfickgodlgkhehckmjlebelgoai">
+Link for installation from Chrome Web Store
+</a>
+
 DESCRIPTION:
 
 Searching in 3D stages.
