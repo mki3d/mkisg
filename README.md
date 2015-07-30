@@ -7,6 +7,9 @@ This is the version of MKI SEARCHING GAME that can be run as Chrome application 
 Link for installation from Chrome Web Store
 </a>
 
+If you are using other browser, you can also clone this repository and 
+play offline by opening the file: mkisg_app/index.html
+
 DESCRIPTION:
 
 Searching in 3D stages.
