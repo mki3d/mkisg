@@ -273,6 +273,7 @@ function stopIntervalAction(){
     if(intervalAction !== null) {
 	window.clearInterval(intervalAction);
 	intervalAction=null;
+	drawScene();
     }
 }
 
@@ -407,24 +408,24 @@ function onKeyDown(e){
     case 81: // Q
 	// alert("remaining tokens: "+tokenPositions.remaining);
 	break;
-/*
-    case 69: // E
-    case 191: // ?
-    case 68: // D
-    case 13: // enter
-    case 187: // +
-    case 27: // escape
-    case 189: // -
-    case 86: // V
-    case 46: // Delete
-    case 51: // #
-    case 83: // S
-    case 65: // A
-    case 56: // *
-    case 88: // X
-    case 74: // J
-	break;
-*/
+	/*
+	  case 69: // E
+	  case 191: // ?
+	  case 68: // D
+	  case 13: // enter
+	  case 187: // +
+	  case 27: // escape
+	  case 189: // -
+	  case 86: // V
+	  case 46: // Delete
+	  case 51: // #
+	  case 83: // S
+	  case 65: // A
+	  case 56: // *
+	  case 88: // X
+	  case 74: // J
+	  break;
+	*/
     }
 }
 
@@ -584,8 +585,7 @@ function drawScene() {
     drawGraph(frameBox);
 
     drawTokens();
-
-    {   // draw sectors
+    if(intervalAction === null ) {   // draw sectors
 	gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
 			    glMatrix4(
 				1/6,   0,   0,   0,
@@ -604,8 +604,8 @@ function drawScene() {
 
     if(tokenPositions.remaining===0) {
 	/*
-	alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
-              "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
+	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
+          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
 	*/
 	startGame();
     }
@@ -675,21 +675,21 @@ function startGame()
     visitedStages++; // statistics
 
     /*
-    alert("MKI SEARCHING GAME:\n\n"+
-	  "FIND AND COLLECT "+tokenPositions.remaining+" TOKENS!\n\n"+
-	  "Use the keys:\n"+
-	  "     'B','F', Arrow Keys - move/rotate\n"+
-	  "     'M','R' - moving/rotating mode\n"+
-	  "      Space - set observer upright\n"+
-	  "     'Q' - report number of remaing tokens\n"+
-	  "or touch one of the 3x3 sectors of the window to activate action:\n"+
-	  "      up-left - switch to moving mode\n"+
-	  "      down-left - switch to rotating mode\n"+
-	  "      up-right  - forward\n"+
-	  "      down-right - backward\n"+
-	  "      center -  set observer upright\n"+
-	  "      left/up/right/down-middle - like Arrow Keys\n" 
-	 );
+      alert("MKI SEARCHING GAME:\n\n"+
+      "FIND AND COLLECT "+tokenPositions.remaining+" TOKENS!\n\n"+
+      "Use the keys:\n"+
+      "     'B','F', Arrow Keys - move/rotate\n"+
+      "     'M','R' - moving/rotating mode\n"+
+      "      Space - set observer upright\n"+
+      "     'Q' - report number of remaing tokens\n"+
+      "or touch one of the 3x3 sectors of the window to activate action:\n"+
+      "      up-left - switch to moving mode\n"+
+      "      down-left - switch to rotating mode\n"+
+      "      up-right  - forward\n"+
+      "      down-right - backward\n"+
+      "      center -  set observer upright\n"+
+      "      left/up/right/down-middle - like Arrow Keys\n" 
+      );
     */
     drawScene();
     startTime = (new Date()).getTime();
