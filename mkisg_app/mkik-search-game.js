@@ -547,13 +547,34 @@ function drawAlert(alertGraph, size) {
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
 }
 
+function drawSectors() {
+    // draw sectors
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
+			glMatrix4(
+			    1/6,   0,   0,   0,
+			    0, 1/6,   0,   0,
+                            0,   0, 1/6,  -1,
+                            0,   0,   0,   1
+			) 
+		       );
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
+    
+    drawGraph(sectors);
+    // restore matrices 
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+
+}
+
+
 function drawScene() {
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.depthFunc(gl.LEQUAL);
     if(collectedAlert) {
-	gl.clearColor(1.0, 0.0, 0.0, 1.0); // RED
+	gl.clearColor(1.0, 0.5, 0.5, 1.0); // PINK
 	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         collectedAlert=false;
+        drawSectors();
 	return;
     }
     if(alertAction){
@@ -585,22 +606,8 @@ function drawScene() {
     drawGraph(frameBox);
 
     drawTokens();
-    if(intervalAction === null ) {   // draw sectors
-	gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
-			    glMatrix4(
-				1/6,   0,   0,   0,
-				0, 1/6,   0,   0,
-                                0,   0, 1/6,  -1,
-                                0,   0,   0,   1
-			    ) 
-			   );
-	gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
-	
-	drawGraph(sectors);
-	// restore matrices 
-	gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-	gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
-    }
+    if(intervalAction === null ) drawSectors();
+
 
     if(tokenPositions.remaining===0) {
 	/*
