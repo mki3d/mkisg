@@ -671,13 +671,13 @@ function startGame()
 
     generateTokenPositions();
     if(visitedStages==0){
-	// only one tokene on welcome stage
+	// only one token on welcome stage
 	var i;
 	for(i=0; i<MAX_TOKENS-1; i++) {
             tokenPositions[i].collected= true;
             tokenPositions.remaining--;
 	}
-        tokenPositions[i]=[4.5,0.5,0];
+        tokenPositions[i]=[4.5,0.5,0]; // hardcoded position :-(
     }
     visitedStages++; // statistics
 
