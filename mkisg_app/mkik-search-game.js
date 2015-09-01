@@ -21,9 +21,17 @@
 
 
 
+
+var rotXYcounter = 0;
+
 function rotateXZ(traveler, angle)
 {
     traveler.rotXZ=(traveler.rotXZ+angle+360)%360;
+    if(traveler.rotXZ % 90 == 0) rotXYcounter++;
+    if(rotXYcounter == 5) {
+	rotXYcounter = 0;
+	stopIntervalAction();
+    }
 }
 
 function rotateYZ(traveler, angle)
@@ -270,6 +278,7 @@ function modelViewMatrix(viewer)
 // CALLBACKS
 
 function stopIntervalAction(){
+    rotXYcounter=0;
     if(intervalAction !== null) {
 	window.clearInterval(intervalAction);
 	intervalAction=null;
