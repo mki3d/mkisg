@@ -1,4 +1,4 @@
-MKI SEARCHING GAME
+# MKI SEARCHING GAME
 by mki1967@gmail.com
 
 This is the version of MKI SEARCHING GAME that can be run as Chrome application offline.
@@ -10,7 +10,11 @@ Link for installation from Chrome Web Store
 If you are using other browser, you can also clone this repository and 
 play offline by opening the file: mkisg_app/index.html
 
-DESCRIPTION:
+### Github Page
+
+GitHub Page for this project is at http://mki1967.github.io/mkisg-chrome/
+
+## DESCRIPTION:
 
 Searching in 3D stages.
 
@@ -20,7 +24,7 @@ randomly selected stage.
 Sometimes it is hard to find all the tokens, since they can be anywhere.
 
 
-INSTRUCTIONS:
+## INSTRUCTIONS:
 
 Find all the red tokens to finish each stage. 
 To collect a token you have simply to approach it.
@@ -51,10 +55,3 @@ Hints:
 
 * When you are close to the object, it is easier to
   navigate toward the object in the ROTATE mode.
-
-
-
-
-
-
- 
