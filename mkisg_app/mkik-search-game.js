@@ -451,7 +451,7 @@ function initGL(canvas) {
     } catch (e) {
     }
     if (!gl) {
-        alert("Could not initialise WebGL, sorry :-(");
+        console.log("Could not initialise WebGL, sorry :-(");
     }
 }
 
@@ -465,7 +465,7 @@ function tryToCompileShader(shader)
     gl.compileShader(shader);
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        alert(gl.getShaderInfoLog(shader));
+        console.log(gl.getShaderInfoLog(shader));
     }
 }
 
@@ -484,7 +484,7 @@ function compileAndLinkShader( FRAGMENT_SHADER_STRING, VERTEX_SHADER_STRING) {
     gl.linkProgram(shaderProgram);
 
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-        alert("Could not initialise shaders");
+        console.log("Could not initialise shaders");
     }
     return shaderProgram;
 }
