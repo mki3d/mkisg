@@ -87,15 +87,73 @@ function checkTokens()
             collectedAlert= true;
 	}
     }
+    if(tokenPositions.remaining===0) {
+	/*
+	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
+          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
+	*/
+
+	/* hold on callbacks */
+	window.onresize=null;
+	window.onkeydown=null;
+	window.onmousedown=null;
+
+	withSkyBox=true; // tmp
+
+	if(withSkyBox) {
+	    var fun=sbx_fun;
+
+	    var r=Math.floor( Math.random()* fun.length );
+	    var g=Math.floor( Math.random()* fun.length );
+	    var b=Math.floor( Math.random()* fun.length );
+	    skyboxRGB=[r,g,b];
+	    skyboxStep=0;
+	    canvas.style.display="none";
+	    canvasTexDiv.style.display="block";
+	    skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
+	} else startGame();
+    }
 }
+
+var skyboxXYZ= [ 
+    sbx_xyzZPlus , sbx_xyzZMinus,
+    sbx_xyzXPlus , sbx_xyzXMinus,
+    sbx_xyzYPlus , sbx_xyzYMinus
+];
+
+var skyboxRGB;
+var skyboxStep;
+var skyboxRequestId=0;
+
+var skyboxCallback= function(time){
+    if(skyboxStep<6){
+	var r=skyboxRGB[0];
+	var g=skyboxRGB[1];
+	var b=skyboxRGB[2];
+	var fun=sbx_fun;
+	sbx_fillCanvas( canvasTex, sbx_createFunctionRGB( fun[r], fun[g], fun[b], skyboxXYZ[skyboxStep] ) );
+	skyboxStep++;
+	skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
+    } else {
+	window.cancelAnimationFrame(skyboxRequestId);
+	skyboxRequestId =0;
+	canvas.style.display="block";
+	canvasTexDiv.style.display="none";
+	startGame();
+    }
+}
+
+
+
+
 
 function generateTokenPositions(){
     var i;
     for(i=0; i<MAX_TOKENS; i++){
 	tokenPositions[i]=[ 
-            traveler.vMin[0]+Math.random()*(traveler.vMax[0]-traveler.vMin[0]),
-            traveler.vMin[1]+Math.random()*(traveler.vMax[1]-traveler.vMin[1]),
-            traveler.vMin[2]+Math.random()*(traveler.vMax[2]-traveler.vMin[2])
+	    traveler.vMin[0]+Math.random()*(traveler.vMax[0]-traveler.vMin[0]),
+	    traveler.vMin[1]+Math.random()*(traveler.vMax[1]-traveler.vMin[1]),
+	    traveler.vMin[2]+Math.random()*(traveler.vMax[2]-traveler.vMin[2])
         ];
 	tokenPositions[i].collected=false;
     }
@@ -192,15 +250,15 @@ function glVector3( x,y,z ){
 }
 
 function glMatrix4(  xx, yx, zx, wx,
-                     xy, yy, zy, wy,
-                     xz, yz, zz, wz,
-                     xw, yw, zw, ww )
+		     xy, yy, zy, wy,
+		     xz, yz, zz, wz,
+		     xw, yw, zw, ww )
 {
     // sequence of concatenated columns
     return new Float32Array( [ xx, xy, xz, xw,
-                               yx, yy, yz, yw,
-                               zx, zy, zz, zw,
-                               wx, wy, wz, ww ] );
+			       yx, yy, yz, yw,
+			       zx, zy, zz, zw,
+			       wx, wy, wz, ww ] );
 }
 
 var IdMatrix = glMatrix4(1,   0,   0,   0,
@@ -220,9 +278,9 @@ function projectionMatrix(projection)
 
 
     return glMatrix4( xx,  0,  0,  0,
-                      0, yy,  0,  0,
-                      0,  0, zz, wz,
-                      0,  0, zw,  0 );
+		      0, yy,  0,  0,
+		      0,  0, zz, wz,
+		      0,  0, zw,  0 );
 }
 
 
@@ -562,8 +620,8 @@ function drawSectors() {
 			glMatrix4(
 			    1/6,   0,   0,   0,
 			    0, 1/6,   0,   0,
-                            0,   0, 1/6,  -1,
-                            0,   0,   0,   1
+			    0,   0, 1/6,  -1,
+			    0,   0,   0,   1
 			) 
 		       );
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
@@ -618,14 +676,9 @@ function drawScene() {
     if(intervalAction === null ) drawSectors();
 
 
-    if(tokenPositions.remaining===0) {
-	/*
-	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
-          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
-	*/
-	startGame();
-    }
 }
+
+
 
 
 function drawTokens()
@@ -709,10 +762,18 @@ function startGame()
     */
     drawScene();
     startTime = (new Date()).getTime();
+
+    /* set game callbacks */
+    window.onresize=onWindowResize;
+    window.onkeydown=onKeyDown;
+    window.onmousedown=onMouseDown;
+
 }
 
 function webGLStart() {
-    var canvas = document.getElementById("canvasId");
+    canvas = document.getElementById("canvasId");
+    canvasTex = document.getElementById("canvasTexId");
+    canvasTexDiv = document.getElementById("canvasTexDiv");
     // ctx = canvas.getContext("2d");
     initGL(canvas);
     initShaders();

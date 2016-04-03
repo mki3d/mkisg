@@ -55,14 +55,20 @@
     <script src="insertNewStage.js"></script>
 
 
+    <script src="skybox_utils.js"></script>
     <script src="mkik-search-game.js"></script>
     <!---
 	<div> You can find more info on <a href="https://github.com/mki1967" target="_blank">https://github.com/mki1967</a> </div>
 	-->
-    <div id="canvasDiv">
+    <div id="canvasDiv" style="position: relative;">
       <canvas id="canvasId" width="640" height="400"  style="border:0px; margin: 0px; padding: 0px;" >
 	Your browser does not support the canvas element.
       </canvas>
+      <div id="canvasTexDiv" style="position: absolute; top: 0px; left: 0px; color: black; background-color: white; display: none"> 
+	CREATING SKY-BOX. PLEASE WAIT ...
+	<canvas id="canvasTexId" width="512" height="512"  style="border:0px; margin: 0px; padding: 0px;" >
+	</canvas>
+      </div>
     </div>
   </body>
 </html>
