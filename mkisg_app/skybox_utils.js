@@ -113,9 +113,13 @@ var sbx_xyzZMinus = [3,1,5];
 
 var sbx_xyzXPlus  = [2,1,3];
 var sbx_xyzXMinus = [5,1,0];
-
+/*
 var sbx_xyzYPlus  = [0,2,4];
 var sbx_xyzYMinus = [0,5,1];
+*/
+
+var sbx_xyzYMinus  = [0,2,4];
+var sbx_xyzYPlus = [0,5,1];
 
 var sbx_fillCanvas= function(canvas, fRGB){
     /* fRGB - function of (h,v,depth) - returns vector [r,g,b] in [0 ... 255]^3 */
@@ -157,7 +161,7 @@ var sbx_vertexShaderSource=""+
     "{\n"+
     "    vec4 pos = projection * view * vec4(position, 1.0);\n"+
     "    gl_Position = pos.xyww;\n"+
-//    "    gl_Position = pos.xyzw;\n"+
+//    "    gl_Position = vec4(pos.xy, 1.0,1.0);\n"+
     "    TexCoords = position;\n"+
     "}\n";
 
@@ -168,6 +172,7 @@ var sbx_fragmentShaderSource=""+
     "void main()\n"+
     "{\n"+
     "    gl_FragColor = textureCube(skybox, TexCoords);\n"+
+//    "    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n"+
     "}\n";
 
 
@@ -188,46 +193,44 @@ var sbx_skybox=null;
 
 
 /* input vertices of cube triangles */
-var sbx_Float32Array= new Float32Array( 
-    [
-	    -1.0,  1.0, -1.0,
-            -1.0, -1.0, -1.0,
-	1.0, -1.0, -1.0,
-	1.0, -1.0, -1.0,
-	1.0,  1.0, -1.0,
-            -1.0,  1.0, -1.0,	
-            -1.0, -1.0,  1.0,
-            -1.0, -1.0, -1.0,
-            -1.0,  1.0, -1.0,
-            -1.0,  1.0, -1.0,
-            -1.0,  1.0,  1.0,
-            -1.0, -1.0,  1.0,
-	1.0, -1.0, -1.0,
-	1.0, -1.0,  1.0,
-	1.0,  1.0,  1.0,
-	1.0,  1.0,  1.0,
-	1.0,  1.0, -1.0,
-	1.0, -1.0, -1.0,
-            -1.0, -1.0,  1.0,
-            -1.0,  1.0,  1.0,
-	1.0,  1.0,  1.0,
-	1.0,  1.0,  1.0,
-	1.0, -1.0,  1.0,
-            -1.0, -1.0,  1.0,
-            -1.0,  1.0, -1.0,
-	1.0,  1.0, -1.0,
-	1.0,  1.0,  1.0,
-	1.0,  1.0,  1.0,
-            -1.0,  1.0,  1.0,
-            -1.0,  1.0, -1.0,
-            -1.0, -1.0, -1.0,
-            -1.0, -1.0,  1.0,
-	1.0, -1.0, -1.0,
-	1.0, -1.0, -1.0,
-            -1.0, -1.0,  1.0,
-	1.0, -1.0,  1.0
-    ]
-);
+var sbx_Float32Array= new Float32Array( [ 
+	-1,  1, -1,
+	-1, -1, -1,
+	+1, -1, -1,
+	+1, -1, -1,
+	+1,  1, -1,
+        -1,  1, -1,	    
+	-1, -1,  1,
+        -1, -1, -1,
+        -1,  1, -1,
+        -1,  1, -1,
+        -1,  1,  1,
+        -1, -1,  1,
+	+1, -1, -1,
+	+1, -1,  1,
+	+1,  1,  1,
+	+1,  1,  1,
+	+1,  1, -1,
+	+1, -1, -1,
+        -1, -1,  1,
+        -1,  1,  1,
+	+1,  1,  1,
+	+1,  1,  1,
+	+1, -1,  1,
+        -1, -1,  1,
+        -1,  1, -1,
+	+1,  1, -1,
+	+1,  1,  1,
+	+1,  1,  1,
+        -1,  1,  1,
+        -1,  1, -1,
+        -1, -1, -1,
+        -1, -1,  1,
+	+1, -1, -1,
+	+1, -1, -1,
+        -1, -1,  1,
+	+1, -1,  1
+]);
 
 var sbx_arrayBuffer=null;
 
@@ -268,7 +271,7 @@ var sbx_makeShaderProgram= function(gl){
    gl.useProgram(sbx_shaderProgram);		
 
     /* set vertex attributes locations */
-    sbx_position=gl.getAttribLocation(shaderProgram, "position");
+    sbx_position=gl.getAttribLocation(sbx_shaderProgram, "position");
 
     /* set uniform variables locations */
     sbx_projection=gl.getUniformLocation(sbx_shaderProgram, "projection");
@@ -282,6 +285,7 @@ var sbx_makeShaderProgram= function(gl){
 
     /* create texture ID and set texture parameters */
     sbx_textureId=gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0+sbx_textureUnit); 
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -327,6 +331,7 @@ var sbx_drawSkybox= function ( gl, view, projection ) {
     gl.uniform1i(sbx_skybox, sbx_textureUnit );
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
 
-    gl.drawArrays(gl.TRIANGLES, 0, sbx_Float32Array.length/3 );
+  //  gl.drawArrays(gl.TRIANGLES, 0, sbx_Float32Array.length/3 );
+    gl.drawArrays(gl.TRIANGLES, 0, 36);
     gl.depthFunc(gl.LESS);
 }        

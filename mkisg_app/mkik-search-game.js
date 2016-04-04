@@ -98,7 +98,7 @@ function checkTokens()
 	window.onkeydown=null;
 	window.onmousedown=null;
 
-	withSkyBox=Math.random()< 1.1; // tmp
+	withSkyBox= (visitedStages%2 == 1); // tmp
 
 	if(withSkyBox) {
 	    var fun=sbx_fun;
@@ -108,7 +108,7 @@ function checkTokens()
 	    var b=Math.floor( Math.random()* fun.length );
 	    skyboxRGB=[r,g,b];
 	    skyboxStep=0;
-	    canvas.style.display="none";
+	    // canvas.style.display="none";
 	    canvasTexDiv.style.display="block";
 	    skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
 	} else startGame();
@@ -118,6 +118,7 @@ function checkTokens()
 var skyboxXYZ= [ 
     sbx_xyzXPlus , sbx_xyzXMinus,
     sbx_xyzYPlus , sbx_xyzYMinus,
+ //   sbx_xyzYMinus , sbx_xyzYPlus,
     sbx_xyzZPlus , sbx_xyzZMinus
 ];
 
@@ -132,7 +133,8 @@ var skyboxCallback= function(time){
 	var b=skyboxRGB[2];
 	var fun=sbx_fun;
 	sbx_fillCanvasUpsideDown( canvasTex, sbx_createFunctionRGB( fun[r], fun[g], fun[b], skyboxXYZ[skyboxStep] ) );
-	sbx_loadCubeFaceFromCanvas(gl, canvasTex, gl.TEXTURE_CUBE_MAP_POSITIVE_X+skyboxStep);
+	// sbx_loadCubeFaceFromCanvas(gl, canvasTex, (gl.TEXTURE_CUBE_MAP_POSITIVE_X)+skyboxStep);
+	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[skyboxStep]);
 	skyboxStep++;
 	skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
     } else {
@@ -388,7 +390,7 @@ function onWindowResize() {
     pMatrix= projectionMatrix(projection);
 
     gl.viewport(0,0,wth,hth);
-    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    // gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     drawScene();
 
 }
@@ -651,11 +653,12 @@ function drawSectors() {
 			) 
 		       );
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
-    
+    // gl.disable(gl.DEPTH_TEST);
     drawGraph(sectors);
     // restore matrices 
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    // gl.enable(gl.DEPTH_TEST);
 
 }
 
@@ -691,6 +694,7 @@ function drawScene() {
 
     mvMatrix= modelViewMatrix(traveler);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
 
 
     // setMatrixUniforms();
@@ -701,9 +705,11 @@ function drawScene() {
 
     drawTokens();
 
+     if(withSkyBox) sbx_drawSkybox ( gl, skyboxViewMatrix(traveler),  pMatrix);
+
+    gl.useProgram(shaderProgram);
     if(intervalAction === null ) drawSectors();
 
-    if(withSkyBox) sbx_drawSkybox ( gl, skyboxViewMatrix(traveler),  pMatrix);
 
 }
 
@@ -825,8 +831,20 @@ function webGLStart() {
     gl.enable(gl.DEPTH_TEST);
 
     /* skybox init */
+    cubeFace=[ 
+	gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+	gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+	gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+    ];
+    var i;
+
     sbx_makeShaderProgram(gl);
 
+    for(i=0; i<6; i++)
+	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[i]);
 
     onWindowResize(); // sets projection an model view matrices and redraws
 
