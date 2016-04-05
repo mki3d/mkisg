@@ -1,3 +1,8 @@
+/* 
+skybox creator by mki1967@gmail.com 
+
+use three selected functions from sbx_fun for RGB components 
+*/
 
 /* sbx_ - prefix for objects of this library */
 
