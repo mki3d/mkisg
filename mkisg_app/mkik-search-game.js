@@ -87,15 +87,83 @@ function checkTokens()
             collectedAlert= true;
 	}
     }
+    if(tokenPositions.remaining===0) {
+	/*
+	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
+          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
+	*/
+
+	/* hold on callbacks */
+	window.onresize=null;
+	window.onkeydown=null;
+	window.onmousedown=null;
+
+	withSkyBox= (visitedStages%2 == 1); // tmp
+
+	if(withSkyBox) {
+	    var fun=sbx_fun;
+
+	    var r=Math.floor( Math.random()* fun.length );
+	    var g=Math.floor( Math.random()* fun.length );
+	    var b=Math.floor( Math.random()* fun.length );
+	    skyboxRGB=[r,g,b];
+	    skyboxStep=0;
+	    // canvas.style.display="none";
+	    canvasTexDiv.style.display="block";
+	    skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
+	} else startGame();
+    }
 }
+
+var skyboxXYZ= [ 
+    sbx_xyzXPlus , sbx_xyzXMinus,
+    sbx_xyzYPlus , sbx_xyzYMinus,
+ //   sbx_xyzYMinus , sbx_xyzYPlus,
+    sbx_xyzZPlus , sbx_xyzZMinus
+];
+
+var skyboxRGB;
+var skyboxStep;
+var skyboxRequestId=0;
+
+var skyboxCallback= function(time){
+    if(skyboxStep<6){
+	var r=skyboxRGB[0];
+	var g=skyboxRGB[1];
+	var b=skyboxRGB[2];
+	var fun=sbx_fun;
+	sbx_fillCanvasUpsideDown( canvasTex, sbx_createFunctionRGB( fun[r], fun[g], fun[b], skyboxXYZ[skyboxStep] ) );
+	// sbx_loadCubeFaceFromCanvas(gl, canvasTex, (gl.TEXTURE_CUBE_MAP_POSITIVE_X)+skyboxStep);
+	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[skyboxStep]);
+	skyboxStep++;
+	skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
+    } else {
+	window.cancelAnimationFrame(skyboxRequestId);
+	skyboxRequestId =0;
+	canvas.style.display="block";
+	canvasTexDiv.style.display="none";
+/*
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+*/
+	startGame();
+    }
+}
+
+
+
+
 
 function generateTokenPositions(){
     var i;
     for(i=0; i<MAX_TOKENS; i++){
 	tokenPositions[i]=[ 
-            traveler.vMin[0]+Math.random()*(traveler.vMax[0]-traveler.vMin[0]),
-            traveler.vMin[1]+Math.random()*(traveler.vMax[1]-traveler.vMin[1]),
-            traveler.vMin[2]+Math.random()*(traveler.vMax[2]-traveler.vMin[2])
+	    traveler.vMin[0]+Math.random()*(traveler.vMax[0]-traveler.vMin[0]),
+	    traveler.vMin[1]+Math.random()*(traveler.vMax[1]-traveler.vMin[1]),
+	    traveler.vMin[2]+Math.random()*(traveler.vMax[2]-traveler.vMin[2])
         ];
 	tokenPositions[i].collected=false;
     }
@@ -192,15 +260,15 @@ function glVector3( x,y,z ){
 }
 
 function glMatrix4(  xx, yx, zx, wx,
-                     xy, yy, zy, wy,
-                     xz, yz, zz, wz,
-                     xw, yw, zw, ww )
+		     xy, yy, zy, wy,
+		     xz, yz, zz, wz,
+		     xw, yw, zw, ww )
 {
     // sequence of concatenated columns
     return new Float32Array( [ xx, xy, xz, xw,
-                               yx, yy, yz, yw,
-                               zx, zy, zz, zw,
-                               wx, wy, wz, ww ] );
+			       yx, yy, yz, yw,
+			       zx, zy, zz, zw,
+			       wx, wy, wz, ww ] );
 }
 
 var IdMatrix = glMatrix4(1,   0,   0,   0,
@@ -220,9 +288,9 @@ function projectionMatrix(projection)
 
 
     return glMatrix4( xx,  0,  0,  0,
-                      0, yy,  0,  0,
-                      0,  0, zz, wz,
-                      0,  0, zw,  0 );
+		      0, yy,  0,  0,
+		      0,  0, zz, wz,
+		      0,  0, zw,  0 );
 }
 
 
@@ -275,6 +343,24 @@ function modelViewMatrix(viewer)
 			 0,   0,      0,    1  );
 }
 
+function skyboxViewMatrix(viewer)
+{
+    var degToRadians= Math.PI/180;
+
+    var c1= Math.cos(-viewer.rotXZ*degToRadians);
+    var s1= Math.sin(-viewer.rotXZ*degToRadians);
+
+    var c2= Math.cos(-viewer.rotYZ*degToRadians);
+    var s2= Math.sin(-viewer.rotYZ*degToRadians);
+
+    var v=viewerRotatedVector(viewer, [-viewer.x, -viewer.y, -viewer.z]);
+
+    return glMatrix4 (   c1,   0,    -s1,       0,
+			 -s2*s1,  c2, -s2*c1,  0,
+			 c2*s1,  s2,  c2*c1,  0,
+			 0,   0,      0,    1  );
+}
+
 // CALLBACKS
 
 function stopIntervalAction(){
@@ -304,7 +390,7 @@ function onWindowResize() {
     pMatrix= projectionMatrix(projection);
 
     gl.viewport(0,0,wth,hth);
-    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    // gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     drawScene();
 
 }
@@ -562,21 +648,23 @@ function drawSectors() {
 			glMatrix4(
 			    1/6,   0,   0,   0,
 			    0, 1/6,   0,   0,
-                            0,   0, 1/6,  -1,
-                            0,   0,   0,   1
+			    0,   0, 1/6,  -1,
+			    0,   0,   0,   1
 			) 
 		       );
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, IdMatrix );
-    
+    // gl.disable(gl.DEPTH_TEST);
     drawGraph(sectors);
     // restore matrices 
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    // gl.enable(gl.DEPTH_TEST);
 
 }
 
 
 function drawScene() {
+    gl.useProgram(shaderProgram);
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.depthFunc(gl.LEQUAL);
     if(collectedAlert) {
@@ -606,6 +694,7 @@ function drawScene() {
 
     mvMatrix= modelViewMatrix(traveler);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
 
 
     // setMatrixUniforms();
@@ -615,17 +704,16 @@ function drawScene() {
     drawGraph(frameBox);
 
     drawTokens();
+
+     if(withSkyBox) sbx_drawSkybox ( gl, skyboxViewMatrix(traveler),  pMatrix);
+
+    gl.useProgram(shaderProgram);
     if(intervalAction === null ) drawSectors();
 
 
-    if(tokenPositions.remaining===0) {
-	/*
-	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
-          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
-	*/
-	startGame();
-    }
 }
+
+
 
 
 function drawTokens()
@@ -709,10 +797,18 @@ function startGame()
     */
     drawScene();
     startTime = (new Date()).getTime();
+
+    /* set game callbacks */
+    window.onresize=onWindowResize;
+    window.onkeydown=onKeyDown;
+    window.onmousedown=onMouseDown;
+
 }
 
 function webGLStart() {
-    var canvas = document.getElementById("canvasId");
+    canvas = document.getElementById("canvasId");
+    canvasTex = document.getElementById("canvasTexId");
+    canvasTexDiv = document.getElementById("canvasTexDiv");
     // ctx = canvas.getContext("2d");
     initGL(canvas);
     initShaders();
@@ -733,6 +829,22 @@ function webGLStart() {
     gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
 
     gl.enable(gl.DEPTH_TEST);
+
+    /* skybox init */
+    cubeFace=[ 
+	gl.TEXTURE_CUBE_MAP_POSITIVE_X,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
+	gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
+	gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
+	gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
+    ];
+    var i;
+
+    sbx_makeShaderProgram(gl);
+
+    for(i=0; i<6; i++)
+	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[i]);
 
     onWindowResize(); // sets projection an model view matrices and redraws
 

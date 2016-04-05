@@ -92,3 +92,12 @@ var intervalAction=null;
 /* STATS */
 
 var visitedStages=0;
+
+/* SKY-BOX */
+
+var withSkyBox=false;
+var canvasTex;
+var canvasTexDiv;
+
+/* MAIN CANVAS */
+var canvas;
