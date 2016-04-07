@@ -241,7 +241,7 @@ var sbx_arrayBuffer=null;
 
 /* texture parameters */
 var sbx_textureId=null;
-var sbx_textureUnit=0; // default
+var sbx_textureUnit=3; // default
 
 var sbx_makeShaderProgram= function(gl){
     /* Parameters:
@@ -290,7 +290,7 @@ var sbx_makeShaderProgram= function(gl){
 
     /* create texture ID and set texture parameters */
     sbx_textureId=gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0+sbx_textureUnit); 
+    // gl.activeTexture(gl.TEXTURE0+sbx_textureUnit); 
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
     gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -309,7 +309,7 @@ var sbx_loadCubeFaceFromCanvas= function(gl, canvas, cubeFace){
       canvas - container of the image
       cubeFace - one of: gl.TEXTURE_CUBE_MAP_POSITIVE_X, ... 
     */
-    gl.activeTexture(gl.TEXTURE0+sbx_textureUnit); 
+    // gl.activeTexture(gl.TEXTURE0+sbx_textureUnit); 
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
     gl.texImage2D( cubeFace, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, canvas);
 };
@@ -332,7 +332,10 @@ var sbx_drawSkybox= function ( gl, view, projection ) {
     gl.bindBuffer(gl.ARRAY_BUFFER, sbx_arrayBuffer);
     gl.vertexAttribPointer(sbx_position, 3, gl.FLOAT, false, 0, 0);
 
+    // sbx_textureUnit=5; // test
+
     gl.activeTexture(gl.TEXTURE0+sbx_textureUnit );
+    gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
     gl.uniform1i(sbx_skybox, sbx_textureUnit );
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
 
