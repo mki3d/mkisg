@@ -853,10 +853,40 @@ function webGLStart() {
     window.onresize=onWindowResize;
     window.onkeydown=onKeyDown;
     window.onmousedown=onMouseDown;
+    
+
+    /* TEST */
+     
+    errorHandler=function(err){
+	console.log('ERROR');
+	console.log(err);
+    }
+
+    chrome.runtime.getPackageDirectoryEntry(function (dirEntry){
+	console.log(dirEntry);
+	dirEntry.getFile('sectors.js', {},
+			 function (fileEntry ){
+			     console.log(fileEntry);
+			     fileEntry.file(function(file) {
+				 var reader = new FileReader();
+				 reader.onloadend = function(e) {
+				     //var txtArea = document.createElement('textarea');
+				     // txtArea.value = this.result;
+				     // document.body.appendChild(txtArea);
+				     console.log(this.result);
+				 };
+				 reader.readAsText(file);
+			     }, 
+					    errorHandler);
+			 },
+			 errorHandler);
+    }
+					   );
 
 
 
     startGame();
+
 
 }
 
