@@ -864,7 +864,7 @@ function webGLStart() {
 
     chrome.runtime.getPackageDirectoryEntry(function (dirEntry){
 	console.log(dirEntry);
-	dirEntry.getFile('sectors.js', {},
+	dirEntry.getFile('mki3d/tokens/item.mki3d', {},
 			 function (fileEntry ){
 			     console.log(fileEntry);
 			     fileEntry.file(function(file) {
