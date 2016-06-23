@@ -98,20 +98,9 @@ function checkTokens()
 	window.onkeydown=null;
 	window.onmousedown=null;
 
-	withSkyBox= (visitedStages%2 == 1); // tmp
-
-	if(withSkyBox) {
-	    var fun=sbx_fun;
-
-	    var r=Math.floor( Math.random()* fun.length );
-	    var g=Math.floor( Math.random()* fun.length );
-	    var b=Math.floor( Math.random()* fun.length );
-	    skyboxRGB=[r,g,b];
-	    skyboxStep=0;
-	    // canvas.style.display="none";
-	    canvasTexDiv.style.display="block";
-	    skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
-	} else startGame();
+	withSkyBox= (visitedStages%5 !=4 ); // tmp
+	sbx_renderRandomCube(gl); // always prepare new skybox 
+	startGame();
     }
 }
 
@@ -503,6 +492,18 @@ function onKeyDown(e){
     case 81: // Q
 	// alert("remaining tokens: "+tokenPositions.remaining);
 	break;
+    case 83: // S
+	// toggle skybox
+	withSkyBox=!withSkyBox;	
+	drawScene();
+	break;
+    case 78: // N
+	// next random skybox
+	sbx_renderRandomCube(gl);
+	withSkyBox=true;	
+	drawScene();
+	break;
+
 	/*
 	  case 69: // E
 	  case 191: // ?
@@ -701,7 +702,7 @@ function drawScene() {
     // gl.uniform3fv(shaderProgram.vMov, glVector3( 0,0,0 ) );
     gl.uniform3f(shaderProgram.vMov,  0,0,0  );
     drawGraph(scene);
-    drawGraph(frameBox);
+     if(!withSkyBox) drawGraph(frameBox);
 
     drawTokens();
 
@@ -831,20 +832,8 @@ function webGLStart() {
     gl.enable(gl.DEPTH_TEST);
 
     /* skybox init */
-    cubeFace=[ 
-	gl.TEXTURE_CUBE_MAP_POSITIVE_X,
-	gl.TEXTURE_CUBE_MAP_NEGATIVE_X,
-	gl.TEXTURE_CUBE_MAP_POSITIVE_Y,
-	gl.TEXTURE_CUBE_MAP_NEGATIVE_Y,
-	gl.TEXTURE_CUBE_MAP_POSITIVE_Z,
-	gl.TEXTURE_CUBE_MAP_NEGATIVE_Z,
-    ];
-    var i;
-
     sbx_makeShaderProgram(gl);
-
-    for(i=0; i<6; i++)
-	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[i]);
+    sbx_renderRandomCube(gl);
 
     onWindowResize(); // sets projection an model view matrices and redraws
 
@@ -856,7 +845,7 @@ function webGLStart() {
     
 
     /* TEST */
-     
+   /*  
     errorHandler=function(err){
 	console.log('ERROR');
 	console.log(err);
@@ -883,8 +872,7 @@ function webGLStart() {
     }
 					   );
 
-
-
+*/
     startGame();
 
 
