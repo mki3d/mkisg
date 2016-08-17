@@ -85,6 +85,7 @@ function checkTokens()
             tokenPositions[i].collected= true;
             tokenPositions.remaining--;
             collectedAlert= true;
+	    showAndHideMessage("REMAINIG TOKENS: "+tokenPositions.remaining,  MESSAGE_DELAY);
 	}
     }
     if(tokenPositions.remaining===0) {
@@ -93,6 +94,7 @@ function checkTokens()
           "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
 	*/
 
+	
 	/* hold on callbacks */
 	window.onresize=null;
 	window.onkeydown=null;
@@ -797,6 +799,15 @@ function startGame()
       );
     */
     drawScene();
+
+    showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!<br>"+
+		"Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions.<br>"+
+		"(Would you like tor try the "+
+		"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"+
+		"Android version</a>?)<br>"
+	       );
+    
+    
     startTime = (new Date()).getTime();
 
     /* set game callbacks */
