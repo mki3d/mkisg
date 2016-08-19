@@ -804,8 +804,16 @@ function startGame()
 		"Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions.<br>"+
 		"(Would you like tor try the "+
 		"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"+
-		"Android version</a>?)<br>"
+		"Android version</a>?)"
 	       );
+
+    setTimeout(
+	function(){
+	    showMessage("(Would you like tor try the "+
+			"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"+
+			"Android version</a>?)"
+		       )
+	}, 6000 /* ms */);
     
     
     startTime = (new Date()).getTime();

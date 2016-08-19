@@ -22,9 +22,7 @@ var hideMessage = function(){
 var showAndHideMessage =  function( textHTML, milliseconds ){
     var message =document.querySelector('#messageDiv');
     if( message ) {
-	// ...
-	message.innerHTML= textHTML;
-	message.style.display="block"; // show
+	showMessage(textHTML);
 	hideTimeout=setTimeout(hideMessage, milliseconds); // hide afer milliseconds
     }
 }
