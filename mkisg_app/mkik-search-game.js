@@ -367,8 +367,8 @@ function onWindowResize() {
 
     stopIntervalAction();
 
-    var wth = parseInt(window.innerWidth)-10;
-    var hth = parseInt(window.innerHeight)-10;
+    var wth = parseInt(window.innerWidth)-30;
+    var hth = parseInt(window.innerHeight)-30;
     var canvas = document.getElementById("canvasId");
 
     canvas.setAttribute("width", ''+wth);
@@ -800,20 +800,19 @@ function startGame()
     */
     drawScene();
 
-    showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!<br>"+
-		"Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions.<br>"+
-		"(Would you like tor try the "+
-		"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"+
-		"Android version</a>?)"
+    showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!"
+		+" (Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions.)<br>"
 	       );
 
     setTimeout(
 	function(){
-	    showMessage("(Would you like tor try the "+
-			"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"+
-			"Android version</a>?)"
+	    showMessage("(Would you like to try the "
+			+"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"
+			+"ANDROID VERSION</a> or vist "
+			+"<a target='_blank' href='http://mki1967.github.io/mkisg-chrome/'>"
+			+"GAME WEB-PAGE</a>?)"
 		       )
-	}, 6000 /* ms */);
+	}, 5000 /* ms */);
     
     
     startTime = (new Date()).getTime();
