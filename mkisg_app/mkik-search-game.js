@@ -713,6 +713,8 @@ function drawScene() {
     gl.useProgram(shaderProgram);
     if(intervalAction === null ) drawSectors();
 
+    gl.finish();
+
 
 }
 
