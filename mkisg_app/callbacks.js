@@ -1,10 +1,6 @@
 // CALLBACKS
 
-function onWindowResize() {
-
-    // stopIntervalAction();
-    animation.stop();
-
+function setViewportProjections() {
     var wth = parseInt(window.innerWidth)-30;
     var hth = parseInt(window.innerHeight)-30;
     var canvas = document.getElementById("canvasId");
@@ -20,6 +16,14 @@ function onWindowResize() {
 
     gl.viewport(0,0,wth,hth);
     // gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+}
+
+
+function onWindowResize() {
+
+    // stopIntervalAction();
+    animation.stop();
+    setViewportProjections()
     drawScene();
 
 }

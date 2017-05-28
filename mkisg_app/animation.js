@@ -53,12 +53,20 @@ animation.rotDown= function(){
 animation.rotLeft= function(){
     var step =  animation.rotSpeed*animation.deltaTime
     rotateXZ(traveler, step );
+    animation.totalRotXZ+=step
+    if( Math.abs(animation.totalRotXZ) >= 360 ) animation.stop();
 }
 
 animation.rotRight= function(){
     var step =  animation.rotSpeed*animation.deltaTime
     rotateXZ(traveler, -step );
+    animation.totalRotXZ+=step
+    if( Math.abs(animation.totalRotXZ) >= 360 ) animation.stop();
 }
+
+animation.initRotXZ=0;   // initial XZ rotation
+animation.totalRotXZ= 0; // total XZ rotation
+
 
 animation.up=[];
 animation.up[ACTION_MOVE]= animation.movUp;
@@ -93,6 +101,10 @@ animation.start= function( callback ) {
     }
 
     if( animation.requestId != 0 ) animation.stop(); // cancell old action
+
+    
+    animation.initRotXZ= traveler.rotXZ;
+    animation.totalRotXZ= 0;
     
     animation.startTime = window.performance.now();
     animation.lastTime = animation.startTime;
@@ -105,4 +117,5 @@ animation.stop = function() {
     if (animation.requestId)
 	window.cancelAnimationFrame(animation.requestId);
     animation.requestId = 0;
+    drawScene();  
 }

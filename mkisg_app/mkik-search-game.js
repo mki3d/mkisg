@@ -22,7 +22,7 @@
 
 
 
-var rotXYcounter = 0;
+// var rotXYcounter = 0;
 
 function rotateXZ(traveler, angle)
 {
@@ -163,88 +163,6 @@ function generateTokenPositions(){
 
     tokenPositions.remaining=MAX_TOKENS;
 }
-
-
-function up()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE:
-	move( traveler, [0,moveStep,0] ); 
-	break;
-    case ACTION_ROTATE:
-	rotateYZ(traveler, -rotYZStep );
-	break;
-    }
-    drawScene();  
-}
-
-function down()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE: 
-	move( traveler, [0,-moveStep,0] ); 
-	break;
-    case ACTION_ROTATE:
-	rotateYZ(traveler, rotYZStep );
-	break;
-    }  
-    drawScene();  
-}
-
-function left()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE:
-	move( traveler, [-moveStep,0,0] ); 
-	break;
-    case ACTION_ROTATE:
-	rotateXZ(traveler, rotXZStep );
-	break;
-    }  
-    drawScene();  
-}
-
-function right()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE: 
-	move( traveler, [moveStep,0,0] ); 
-	break;
-    case ACTION_ROTATE:
-	rotateXZ(traveler, -rotXZStep );
-	break;
-    }  
-    drawScene();  
-}
-
-function forward()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE:
-    case ACTION_ROTATE:
-	move( traveler, [0,0,moveStep] ); 
-	break;
-    }  
-    drawScene();  
-}
-
-function back()
-{
-    switch(currentAction)
-    {
-    case ACTION_MOVE: 
-    case ACTION_ROTATE:
-	move( traveler, [0,0,-moveStep] ); 
-	break;
-    }  
-    drawScene();  
-}
-
 
 
 
@@ -558,14 +476,15 @@ function drawScene() {
     // gl.uniform3fv(shaderProgram.vMov, glVector3( 0,0,0 ) );
     gl.uniform3f(shaderProgram.vMov,  0,0,0  );
     drawGraph(scene);
-     if(!withSkyBox) drawGraph(frameBox);
-
+    // if(!withSkyBox) drawGraph(frameBox);
+    
+    drawGraph(frameBox);
     drawTokens();
 
      if(withSkyBox) sbx_drawSkybox ( gl, skyboxViewMatrix(traveler),  pMatrix);
 
     gl.useProgram(shaderProgram);
-    if(intervalAction === null ) drawSectors();
+    if(animation.requestId == 0 ) drawSectors();
 
     gl.finish();
 
@@ -688,8 +607,8 @@ function webGLStart() {
     sbx_makeShaderProgram(gl);
     sbx_renderRandomCube(gl);
 
-    onWindowResize(); // sets projection an model view matrices and redraws
-
+    // onWindowResize(); // sets projection an model view matrices and redraws
+    setViewportProjections(); // sets projection an model view matrices
     
     setCallbacks();
     
