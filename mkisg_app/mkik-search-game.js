@@ -27,18 +27,29 @@ var rotXYcounter = 0;
 function rotateXZ(traveler, angle)
 {
     traveler.rotXZ=(traveler.rotXZ+angle+360)%360;
+    /*
     if(traveler.rotXZ % 90 == 0) rotXYcounter++;
     if(rotXYcounter == 5) {
 	rotXYcounter = 0;
 	stopIntervalAction();
     }
+    */
 }
 
 function rotateYZ(traveler, angle)
 {
-    if(Math.abs(angle+traveler.rotYZ) <= maxYZAngle)
-	traveler.rotYZ += angle;
-    else stopIntervalAction();
+    traveler.rotYZ += angle;
+    
+    if(angle>0 && traveler.rotYZ > maxYZAngle) {
+	animation.stop();
+	traveler.rotYZ = maxYZAngle;
+    }
+
+    if(angle<0 && traveler.rotYZ < -maxYZAngle) {
+	animation.stop();
+	traveler.rotYZ = -maxYZAngle;
+    }
+
 }
 
 function move(traveler, vector)
@@ -59,7 +70,7 @@ function move(traveler, vector)
 	checkTokens();
     }
     else {
-	stopIntervalAction();
+	animation.stop();
 	setAction(ACTION_ROTATE);
     }
 }
@@ -81,7 +92,7 @@ function checkTokens()
     for(i=0; i<tokenPositions.length; i++)
     {
 	if(!tokenPositions[i].collected && maxDistance(vTraveler, tokenPositions[i])<1) {
-            stopIntervalAction();
+	    animation.stop();
             tokenPositions[i].collected= true;
             tokenPositions.remaining--;
             collectedAlert= true;
@@ -89,17 +100,8 @@ function checkTokens()
 	}
     }
     if(tokenPositions.remaining===0) {
-	/*
-	  alert("CONGRATULATIONS !!!\n YOU HAVE COLLECTED ALL TOKENS.\n"+
-          "Time: "+((new Date()).getTime()-startTime)+" milliseconds" );
-	*/
-
+	cancelCallbacks();
 	
-	/* hold on callbacks */
-	window.onresize=null;
-	window.onkeydown=null;
-	window.onmousedown=null;
-
 	withSkyBox= (visitedStages%5 !=4 ); // tmp
 	sbx_renderRandomCube(gl); // always prepare new skybox 
 	startGame();
@@ -352,8 +354,7 @@ function skyboxViewMatrix(viewer)
 			 0,   0,      0,    1  );
 }
 
-// CALLBACKS
-
+/*
 function stopIntervalAction(){
     rotXYcounter=0;
     if(intervalAction !== null) {
@@ -362,29 +363,8 @@ function stopIntervalAction(){
 	drawScene();
     }
 }
+*/
 
-function onWindowResize() {
-
-    stopIntervalAction();
-
-    var wth = parseInt(window.innerWidth)-30;
-    var hth = parseInt(window.innerHeight)-30;
-    var canvas = document.getElementById("canvasId");
-
-    canvas.setAttribute("width", ''+wth);
-    canvas.setAttribute("height", ''+hth);
-    gl.viewportWidth = wth;
-    gl.viewportHeight = hth;
-    projection.screenX=wth;
-    projection.screenY=hth;
-
-    pMatrix= projectionMatrix(projection);
-
-    gl.viewport(0,0,wth,hth);
-    // gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
-    drawScene();
-
-}
 
 function setAction( newAction){
     currentAction = newAction ;
@@ -399,132 +379,6 @@ function setAction( newAction){
 
     };
     
-}
-
-function onMouseDown(evt){
-
-    if(intervalAction !== null) {
-	stopIntervalAction();
-	return;
-    }
-
-    var wth = parseInt(window.innerWidth);
-    var hth = parseInt(window.innerHeight);
-    var xSector= Math.floor(3*evt.clientX/wth);
-    var ySector= Math.floor(3*evt.clientY/hth);
-    var sectorString = ""+xSector+","+ySector;
-
-    switch(sectorString)
-    {
-    case "0,1":
-	intervalAction=window.setInterval(left,50);
-	break;
-    case "2,1":
-	intervalAction=window.setInterval(right,50);
-	break;
-    case "1,0":
-	intervalAction=window.setInterval(up,50);
-	break;
-    case "1,2":
-	intervalAction=window.setInterval(down,50);
-	break;
-    case "2,0":
-	intervalAction=window.setInterval(forward,50);
-	break;
-    case "2,2":
-	intervalAction=window.setInterval(back,50);
-	break;
-    case "1,1":
-	traveler.rotYZ=0; drawScene();
-	break;
-    case "0,0":
-	// currentAction = ACTION_MOVE;
-	setAction(ACTION_MOVE);
-	break;
-    case "0,2":
-	// currentAction = ACTION_ROTATE;
-	setAction(ACTION_ROTATE);
-	break;
-
-    }
-}
-
-function onKeyDown(e){
-
-    stopIntervalAction();
-
-    // var code=e.keyCode? e.keyCode : e.charCode;
-    var code= e.which || e.keyCode;
-    switch(code)
-    {
-    case 38: // up
-    case 73: // I
-	up();
-	break;
-    case 40: // down
-    case 75: // K
-	down();
-	break;
-    case 37: // left
-    case 74:// J
-	left();
-	break;
-    case 39:// right
-    case 76: // L
-	right();
-	break;
-    case 70: // F
-	forward();
-	break;
-    case 66: // B
-    case 86: // V
-	back();
-	break;
-    case 32: // space
-	traveler.rotYZ=0; drawScene();
-	break;
-    case 77: // M
-	// currentAction = ACTION_MOVE;
-	setAction(ACTION_MOVE);
-	break;
-    case 82: // R
-	// currentAction = ACTION_ROTATE;
-	setAction(ACTION_ROTATE);
-	break;
-    case 81: // Q
-	// alert("remaining tokens: "+tokenPositions.remaining);
-	break;
-    case 83: // S
-	// toggle skybox
-	withSkyBox=!withSkyBox;	
-	drawScene();
-	break;
-    case 78: // N
-	// next random skybox
-	sbx_renderRandomCube(gl);
-	withSkyBox=true;	
-	drawScene();
-	break;
-
-	/*
-	  case 69: // E
-	  case 191: // ?
-	  case 68: // D
-	  case 13: // enter
-	  case 187: // +
-	  case 27: // escape
-	  case 189: // -
-	  case 86: // V
-	  case 46: // Delete
-	  case 51: // #
-	  case 83: // S
-	  case 65: // A
-	  case 56: // *
-	  case 88: // X
-	  case 74: // J
-	  break;
-	*/
-    }
 }
 
 
@@ -783,23 +637,6 @@ function startGame()
     }
     visitedStages++; // statistics
 
-    /*
-      alert("MKI SEARCHING GAME:\n\n"+
-      "FIND AND COLLECT "+tokenPositions.remaining+" TOKENS!\n\n"+
-      "Use the keys:\n"+
-      "     'B','F', Arrow Keys - move/rotate\n"+
-      "     'M','R' - moving/rotating mode\n"+
-      "      Space - set observer upright\n"+
-      "     'Q' - report number of remaing tokens\n"+
-      "or touch one of the 3x3 sectors of the window to activate action:\n"+
-      "      up-left - switch to moving mode\n"+
-      "      down-left - switch to rotating mode\n"+
-      "      up-right  - forward\n"+
-      "      down-right - backward\n"+
-      "      center -  set observer upright\n"+
-      "      left/up/right/down-middle - like Arrow Keys\n" 
-      );
-    */
     drawScene();
 
     showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!"
@@ -818,22 +655,18 @@ function startGame()
     
     
     startTime = (new Date()).getTime();
-
-    /* set game callbacks */
-    window.onresize=onWindowResize;
-    window.onkeydown=onKeyDown;
-    window.onmousedown=onMouseDown;
-
+    
+    setCallbacks();
 }
 
 function webGLStart() {
     canvas = document.getElementById("canvasId");
     canvasTex = document.getElementById("canvasTexId");
     canvasTexDiv = document.getElementById("canvasTexDiv");
-    // ctx = canvas.getContext("2d");
+
     initGL(canvas);
     initShaders();
-    // canvas.setAttribute("onkeypress","onKeyDown(e)");
+
 
     // initBuffers(sectorRectangle);
     initBuffers(sectors);
@@ -857,11 +690,8 @@ function webGLStart() {
 
     onWindowResize(); // sets projection an model view matrices and redraws
 
-    /* set callbacks */
-
-    window.onresize=onWindowResize;
-    window.onkeydown=onKeyDown;
-    window.onmousedown=onMouseDown;
+    
+    setCallbacks();
     
 
     /* TEST */
