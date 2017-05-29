@@ -94,6 +94,11 @@ function onKeyDown(e){
 	withSkyBox=true;	
 	drawScene();
 	break;
+	case 84: // T
+	// test loading of resource
+	console.log('TESTING:');
+	testLoading( 'mki3d/tokens/item.mki3d' );
+	break;
     }
 }
 

@@ -612,36 +612,7 @@ function webGLStart() {
     
     setCallbacks();
     
-
-    /* TEST */
-   /*  
-    errorHandler=function(err){
-	console.log('ERROR');
-	console.log(err);
-    }
-
-    chrome.runtime.getPackageDirectoryEntry(function (dirEntry){
-	console.log(dirEntry);
-	dirEntry.getFile('mki3d/tokens/item.mki3d', {},
-			 function (fileEntry ){
-			     console.log(fileEntry);
-			     fileEntry.file(function(file) {
-				 var reader = new FileReader();
-				 reader.onloadend = function(e) {
-				     //var txtArea = document.createElement('textarea');
-				     // txtArea.value = this.result;
-				     // document.body.appendChild(txtArea);
-				     console.log(this.result);
-				 };
-				 reader.readAsText(file);
-			     }, 
-					    errorHandler);
-			 },
-			 errorHandler);
-    }
-					   );
-
-*/
+    
     startGame();
 
 
