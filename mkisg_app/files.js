@@ -5,7 +5,7 @@ function inputHandler( input ) {
 }
 
 
-function testLoading( path ) {    
+function testLoading( path, inputHandler ) {    
     errorHandler=function(err){
 	console.log('ERROR');
 	console.log(err);
@@ -13,10 +13,10 @@ function testLoading( path ) {
 
     try{
 	chrome.runtime.getPackageDirectoryEntry(function (dirEntry){
- 	    console.log(dirEntry);
+ 	    // console.log(dirEntry);
 	    dirEntry.getFile('mki3d/tokens/item.mki3d', {},
 			     function (fileEntry ){
-				 console.log(fileEntry);
+				 // console.log(fileEntry);
 				 fileEntry.file(function(file) {
 				     var reader = new FileReader();
 				     reader.onloadend = function(e) {
@@ -37,7 +37,7 @@ function testLoading( path ) {
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-		// Typical action to be performed when the document is ready:
+		// action to be performed when the document is ready:
 		// console.log( xhttp.responseText );
 		inputHandler( xhttp.responseText );
 	    }

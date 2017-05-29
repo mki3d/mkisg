@@ -97,7 +97,8 @@ function onKeyDown(e){
 	case 84: // T
 	// test loading of resource
 	console.log('TESTING:');
-	testLoading( 'mki3d/tokens/item.mki3d' );
+	testLoading( 'mki3d/tokens/item.mki3d', loadTokenHandler );
+	testLoading( 'mki3d/stages/stage-2017-04-02.mki3d', loadStageHandler );
 	break;
     }
 }
