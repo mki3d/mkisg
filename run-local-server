@@ -1,0 +1,4 @@
+# FROM: https://gist.github.com/willurd/5720255
+
+python -m http.server 8000
+
