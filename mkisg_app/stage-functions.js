@@ -71,11 +71,16 @@ function makeFrameBox() {
     ] );
 }
 
-function restoreStage(idx)
+function restoreStage(stage)
 {
-bgColor=stageArray[idx].bgColor;
-scene=stageArray[idx].scene;
-traveler=stageArray[idx].traveler;
-token=stageArray[idx].token;
-frameBox= stageArray[idx].frameBox
+    bgColor=stage.bgColor;
+    scene=stage.scene;
+    traveler=stage.traveler;
+    token=stage.token;
+    frameBox= stage.frameBox;
+
+    loadBuffers( scene, buffersScene );
+    loadBuffers( token, buffersToken );
+    loadBuffers( frameBox, buffersFrameBox );
+    
 }

@@ -272,16 +272,6 @@ function skyboxViewMatrix(viewer)
 			 0,   0,      0,    1  );
 }
 
-/*
-function stopIntervalAction(){
-    rotXYcounter=0;
-    if(intervalAction !== null) {
-	window.clearInterval(intervalAction);
-	intervalAction=null;
-	drawScene();
-    }
-}
-*/
 
 
 function setAction( newAction){
@@ -375,27 +365,38 @@ function setMatrixUniforms() {
 }
 
 
-function initBuffers(graph) {
-
-
+function declareBuffers(graph) {
     graph.linesVerticesBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, graph.linesVerticesBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, graph.linesVertices, gl.STATIC_DRAW);
-
     graph.linesColorsBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, graph.linesColorsBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, graph.linesColors, gl.STATIC_DRAW);
-
     graph.trianglesVerticesBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, graph.trianglesVerticesBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, graph.trianglesVertices, gl.STATIC_DRAW);
-
     graph.trianglesColorsBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, graph.trianglesColorsBuffer);
+}
+
+function loadBuffers(graph, buf) {
+
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.linesVerticesBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, graph.linesVertices, gl.STATIC_DRAW);
+    graph.linesVerticesBuffer=buf.linesVerticesBuffer;
+    
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.linesColorsBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, graph.linesColors, gl.STATIC_DRAW);
+    graph.linesColorsBuffer=buf.linesColorsBuffer;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.trianglesVerticesBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, graph.trianglesVertices, gl.STATIC_DRAW);
+    graph.trianglesVerticesBuffer=buf.trianglesVerticesBuffer;
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf.trianglesColorsBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, graph.trianglesColors, gl.STATIC_DRAW);
+    graph.trianglesColorsBuffer=buf.trianglesColorsBuffer;
 
 }
 
+function initBuffers(graph) {
+    declareBuffers(graph);
+    loadBuffers(graph, graph);
+}
 
 function drawAlert(alertGraph, size) {
     var	myMatrix= glMatrix4(
@@ -531,7 +532,7 @@ function drawGraph(graph) {
 
 function startGame()
 {
-    restoreStage(stageArray.length-1);
+    restoreStage(stageArray[stageArray.length-1]);
     if(visitedStages==0){
         stageArray.pop(); // use welcome stage only once
     }
@@ -591,14 +592,15 @@ function webGLStart() {
     initBuffers(sectors);
     initBuffers(moveMsg);
     initBuffers(rotateMsg);
-    var i;
-    for( i = 0; i< stageArray.length; i++) {
-        restoreStage(i);
-	initBuffers(scene);
-	initBuffers(token);
-	initBuffers(frameBox);
-    }
-
+    buffersScene={};
+    buffersToken={};
+    buffersFrameBox={};
+    
+    declareBuffers(buffersScene);
+    declareBuffers(buffersToken);
+    declareBuffers(buffersFrameBox);
+    
+   
     gl.clearColor(bgColor[0], bgColor[1], bgColor[2], 1.0);
 
     gl.enable(gl.DEPTH_TEST);
