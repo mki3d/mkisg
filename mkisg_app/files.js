@@ -5,7 +5,7 @@ function inputHandler( input ) {
 }
 
 
-function testLoading( path, inputHandler ) {    
+function startLoading( path, inputHandler ) {    
     errorHandler=function(err){
 	console.log('ERROR');
 	console.log(err);
@@ -32,8 +32,8 @@ function testLoading( path, inputHandler ) {
 					       );
 
     } catch( err ) {
-	console.log( err );
-	console.log( 'Trying: XMLHttpRequest() ');
+	// console.log( err );
+	// console.log( 'Trying: XMLHttpRequest() ');
 	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {

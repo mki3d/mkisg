@@ -3,12 +3,12 @@ ls $1 | {
     echo -n '[';
     if read name;
     then
-	echo -n $name;
+	echo -n '"'$name'"';
     fi;
     while read name;
     do
 	echo ',';
-	echo -n $name;
+	echo -n '"'$name'"';
     done;
     echo ']';
     

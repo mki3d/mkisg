@@ -535,6 +535,7 @@ function startGame()
     if(loadedStage.newLoaded) {
 	restoreStage( loadedStage )
 	loadedStage.newLoaded=false;
+	startLoadingStage(); // load stage only 
     } else {
 	restoreStage(stageArray[stageArray.length-1]);
 	if(visitedStages==0){
@@ -548,6 +549,15 @@ function startGame()
 	    stageArray[idx]=stageArray[stageArray.length-1];
 	    stageArray[stageArray.length-1]=tmp;
 	}
+
+	if( !mki3dIndex.newLoaded ) {
+	    startLoading( 'mki3d/index.json', loadIndexHandler ); // load everything
+	} else if (!mki3dToken.newLoaded) {
+	    startLoadingToken(); // load token and stage
+	}  else if (!mki3dStage.newLoaded) {
+	    startLoadingStage(); // load  stage only
+	}
+
     }
 
     generateTokenPositions();
