@@ -108,6 +108,7 @@ function checkTokens()
     }
 }
 
+/*
 var skyboxXYZ= [ 
     sbx_xyzXPlus , sbx_xyzXMinus,
     sbx_xyzYPlus , sbx_xyzYMinus,
@@ -118,33 +119,8 @@ var skyboxXYZ= [
 var skyboxRGB;
 var skyboxStep;
 var skyboxRequestId=0;
-
-var skyboxCallback= function(time){
-    if(skyboxStep<6){
-	var r=skyboxRGB[0];
-	var g=skyboxRGB[1];
-	var b=skyboxRGB[2];
-	var fun=sbx_fun;
-	sbx_fillCanvasUpsideDown( canvasTex, sbx_createFunctionRGB( fun[r], fun[g], fun[b], skyboxXYZ[skyboxStep] ) );
-	// sbx_loadCubeFaceFromCanvas(gl, canvasTex, (gl.TEXTURE_CUBE_MAP_POSITIVE_X)+skyboxStep);
-	sbx_loadCubeFaceFromCanvas(gl, canvasTex, cubeFace[skyboxStep]);
-	skyboxStep++;
-	skyboxRequestId = window.requestAnimationFrame(skyboxCallback);
-    } else {
-	window.cancelAnimationFrame(skyboxRequestId);
-	skyboxRequestId =0;
-	canvas.style.display="block";
-	canvasTexDiv.style.display="none";
-/*
-    gl.bindTexture(gl.TEXTURE_CUBE_MAP, sbx_textureId);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_CUBE_MAP, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 */
-	startGame();
-    }
-}
+
 
 
 
@@ -590,6 +566,8 @@ function startGame()
     
     
     startTime = (new Date()).getTime();
+
+    sbx_renderRandomCube(gl);
     
     setCallbacks();
 }
@@ -622,12 +600,12 @@ function webGLStart() {
 
     /* skybox init */
     sbx_makeShaderProgram(gl);
-    sbx_renderRandomCube(gl);
+    // sbx_renderRandomCube(gl);
 
     // onWindowResize(); // sets projection an model view matrices and redraws
     setViewportProjections(); // sets projection an model view matrices
     
-    setCallbacks();
+    // setCallbacks();
     
     
     startGame();
