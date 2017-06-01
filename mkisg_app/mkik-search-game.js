@@ -532,17 +532,22 @@ function drawGraph(graph) {
 
 function startGame()
 {
-    restoreStage(stageArray[stageArray.length-1]);
-    if(visitedStages==0){
-        stageArray.pop(); // use welcome stage only once
-    }
-    else{
-	/* swap the last stage with rangom other for the next time stage */
-	/* we assume that there are still at least two stages */
-	var idx = Math.floor(Math.random()*(stageArray.length-1));
-	var tmp= stageArray[idx];
-	stageArray[idx]=stageArray[stageArray.length-1];
-	stageArray[stageArray.length-1]=tmp;
+    if(loadedStage.newLoaded) {
+	restoreStage( loadedStage )
+	loadedStage.newLoaded=false;
+    } else {
+	restoreStage(stageArray[stageArray.length-1]);
+	if(visitedStages==0){
+            stageArray.pop(); // use welcome stage only once
+	}
+	else{
+	    /* swap the last stage with rangom other for the next time stage */
+	    /* we assume that there are still at least two stages */
+	    var idx = Math.floor(Math.random()*(stageArray.length-1));
+	    var tmp= stageArray[idx];
+	    stageArray[idx]=stageArray[stageArray.length-1];
+	    stageArray[stageArray.length-1]=tmp;
+	}
     }
 
     generateTokenPositions();

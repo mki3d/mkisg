@@ -7,7 +7,7 @@ stageArray[idx].bgColor=bgColor;
 stageArray[idx].scene=scene;
 stageArray[idx].traveler=traveler;
 stageArray[idx].token=token;
-makeFrameBox();
+frameBox= makeFrameBox(traveler);
 stageArray[idx].frameBox=frameBox;
 /*
 The GL buffers for the graphs: scene, trveler, token, framebox, must be initialised by initBuffers(...)
@@ -16,7 +16,7 @@ This is done in webGLStart().
 }
 
 
-function makeFrameBox() {
+function makeFrameBox(traveler) {
     var v000= [traveler.vMin[0]-XMargin, traveler.vMin[1]-YMargin,traveler.vMin[2]-ZMargin ];
     var v001= [traveler.vMin[0]-XMargin, traveler.vMin[1]-YMargin,traveler.vMax[2]+ZMargin ];
     var v010= [traveler.vMin[0]-XMargin, traveler.vMax[1]+YMargin,traveler.vMin[2]-ZMargin ];
@@ -27,7 +27,7 @@ function makeFrameBox() {
     var v110= [traveler.vMax[0]+XMargin, traveler.vMax[1]+YMargin,traveler.vMin[2]-ZMargin ];
     var v111= [traveler.vMax[0]+XMargin, traveler.vMax[1]+YMargin,traveler.vMax[2]+ZMargin ];
 
-    frameBox = {}; // create new object
+    var frameBox = {}; // create new object
     frameBox.nrOfLines=  12;
     frameBox.linesVertices = new Float32Array( [
 	v000[0],v000[1],v000[2], v001[0],v001[1],v001[2],
@@ -69,6 +69,8 @@ function makeFrameBox() {
 
     frameBox.trianglesColors = new Float32Array( [
     ] );
+
+    return frameBox;
 }
 
 function restoreStage(stage)

@@ -14,7 +14,7 @@ function testLoading( path, inputHandler ) {
     try{
 	chrome.runtime.getPackageDirectoryEntry(function (dirEntry){
  	    // console.log(dirEntry);
-	    dirEntry.getFile('mki3d/tokens/item.mki3d', {},
+	    dirEntry.getFile(path, {},
 			     function (fileEntry ){
 				 // console.log(fileEntry);
 				 fileEntry.file(function(file) {
