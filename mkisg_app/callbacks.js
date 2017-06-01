@@ -99,6 +99,10 @@ function onKeyDown(e){
 	console.log('TESTING:');
 	startLoading( 'mki3d/index.json', loadIndexHandler );
 	break;
+	case 88: // X
+	// restarting stage
+	startGame();
+	break;
     }
 }
 
