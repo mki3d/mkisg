@@ -101,6 +101,7 @@ function onKeyDown(e){
 	break;
 	case 88: // X
 	// restarting stage
+	withSkyBox=true;	
 	startGame();
 	break;
     }
