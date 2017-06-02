@@ -96,7 +96,7 @@ function checkTokens()
             tokenPositions[i].collected= true;
             tokenPositions.remaining--;
             collectedAlert= true;
-	    showAndHideMessage("REMAINIG TOKENS: "+tokenPositions.remaining,  MESSAGE_DELAY);
+	    showAndHideMessage("REMAINING TOKENS: "+tokenPositions.remaining,  MESSAGE_DELAY);
 	}
     }
     if(tokenPositions.remaining===0) {
@@ -556,11 +556,9 @@ function startGame()
 
     setTimeout(
 	function(){
-	    showMessage("(Would you like to try the "
-			+"<a target='_blank' href='https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg'>"
-			+"ANDROID VERSION</a> or vist "
+	    showMessage("MORE INFO ON "
 			+"<a target='_blank' href='http://mki1967.github.io/mkisg-chrome/'>"
-			+"GAME WEB-PAGE</a>?)"
+			+"THE GAME WEB-PAGE</a>?"
 		       )
 	}, 5000 /* ms */);
     

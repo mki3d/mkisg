@@ -82,6 +82,7 @@ function onKeyDown(e){
 	break;
 	case 81: // Q
 	// alert("remaining tokens: "+tokenPositions.remaining);
+	showAndHideMessage("REMAINING TOKENS: "+tokenPositions.remaining,  MESSAGE_DELAY);
 	break;
 	case 83: // S
 	// toggle skybox
@@ -94,11 +95,13 @@ function onKeyDown(e){
 	withSkyBox=true;	
 	drawScene();
 	break;
+	/*
 	case 84: // T
 	// test loading of resource
 	console.log('TESTING:');
 	startLoading( 'mki3d/index.json', loadIndexHandler );
 	break;
+	*/
 	case 88: // X
 	// restarting stage
 	withSkyBox=true;	

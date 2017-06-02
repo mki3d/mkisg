@@ -20,70 +20,125 @@
     </section>
 
     <section class="main-content">
-<h1>MKI SEARCHING GAME</h1>
-<p><a href="http://mki1967.github.io/">Author: mki1967</a>.</p>
+      <h1>MKI SEARCHING GAME</h1>
+      <p><a href="http://mki1967.github.io/">Author: mki1967</a>.</p>
+      <ul>
+	
+	<li>
+	  <a target="_blank" href="mkisg_app/index.html"> <img src="mkisg_app/assets/mki_icon_48.png">
+	    On-line version
+	  </a>
+	</li>
+	
+	<li>
+	  <a target="_blank" href="https://chrome.google.com/webstore/detail/mki-searching-game/kdajlgfickgodlgkhehckmjlebelgoai">
+	    <img src="mkisg_app/assets/mki_icon_48.png">
+	    Link for installation from <strong>Chrome Web Store</strong>
+	  </a>
+	</li>
 
-<p>MKI SEARCHING GAME can be run on-line or as a Chrome application offline.</p>
+	<li>
+	  <a target="_blank" href="https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg">
+	    <img src="mkisg_app/assets/mki_icon_48.png">
+	    Link for installation version for <strong>ANDROID</strong> from <strong>Google Play</strong>
+	  </a>
+	</li>
 
-<p><a target="_blank" href="https://chrome.google.com/webstore/detail/mki-searching-game/kdajlgfickgodlgkhehckmjlebelgoai">
-<img src="mkisg_app/assets/mki_icon_48.png">
-Link for installation from Chrome Web Store
-
-<p><a target="_blank" href="https://play.google.com/store/apps/details?id=com.gmail.mki1967.mkisg">
-<img src="mkisg_app/assets/mki_icon_48.png">
-Link for installation version for <strong>ANDROID</strong> from Google Play
-</a></p>
-
-<p>
-  <a target="_blank" href="mkisg_app/index.html"> <img src="mkisg_app/assets/mki_icon_48.png"> Here is the on-line version</a>.
-  (You can also clone <a href="https://github.com/mki1967/mkisg-chrome">this  repository</a>
-  and play off-line by opening in the browser the file: <code>mkisg_app/index.html</code>)</p>
+      </ul>
+      
+      <h2>DESCRIPTION:</h2>
 
 
-<h2>DESCRIPTION:</h2>
+      <p>
+	You have to find and collect randomly scattered tokens in a 3D stage.
+	After collecting the last token, you are transferred to another
+	randomly selected stage.
+	(Sometimes it is hard to find all the tokens, since they can be placed anywhere
+	within the stage.)
+      </p>
 
-<p>Searching in 3D stages.</p>
+      <p>
+	Now, the game contains stages directly designed with
+	<a target="_blank" href="https://mki1967.github.io/mki3d/"> MKI3D MODELLER</a>.
+	In the
+	<a target="_blank"  href="https://github.com/mki1967/mkisg-chrome">
+	  Git repository of the game
+	</a>
+	you can find them in the sub-directory:
+	<code>
+	  mkisg_app/mki3d/stages/
+	</code>
+	.
+	If you want to design and play in your own stages then read the file:
+	<code>
+	  mkisg_app/mki3d/README.md
+	</code>
+	.
+	
+      </p>
 
-<p>You have to find and collect randomly scattered objects in a 3D stage.
-After collecting the last token, you are transferred to another
-randomly selected stage.
-Sometimes it is hard to find all the tokens, since they can be anywhere.</p>
+      <h2>INSTRUCTIONS:</h2>
 
-<h2>INSTRUCTIONS:</h2>
+      <p>
+	Find all the tokens to finish each stage. 
+	To collect a token you have simply to approach it.
+	You can go through the walls. 
+	They only restrict visibility.
+      </p>
+      
+      <p>
+	The screen is divided into 3x3 sectors:
+	<table>
+	  <tr>
+	    <td>MOVE</td> <td>UP</td> <td>FORWARD</td>
+	  </tr>
+	  <tr>
+	    <td>LEFT</td><td>UPRIGHT</td><td>RIGHT</td>
+	  </tr>
+	  <tr>
+	    <td>ROTATE</td><td>DOWN</td><td>BACK</td>
+	  </tr>
+	</table>
+	You can activate actions by clicking sectors on the screen.
+	You stop the actions by clicking on the screen.
+      </p>
 
-<p>Find all the red tokens to finish each stage. 
-To collect a token you have simply to approach it.
-You can go through the walls. 
-They only restrict visibility.</p>
+      <p>
+	You can also use the keyboard:
+      </p>
+      
+      <ul>
+	<li>
+	  use <code>ARROW</code> keys and <code>I</code>, <code>J</code>,  <code>K</code>,  <code>L</code>
+	  to move or rotate left-right or up-down
+	</li>
+	<li>use <code>F</code> to move forward</li>
+	<li>use <code>B</code> or <code>V</code> to move backward</li>
+	<li>use <code>M</code> to switch to MOVE mode</li>
+	<li>use <code>R</code> to switch to ROTATE mode</li>
+	<li>use <code>SPACE</code> to reset vertical orientation (UPRIGHT)</li>
+	<li>use the keys: <code>S</code>, <code>N</code> to toggle or change the sky-box</li>
+	<li>use <code>X</code> to restart random stage</li>
+	<li>use <code>Q</code> ask for the number of remaining tokens</li>
+      </ul>
 
-<ul>
-<li>use arrow keys and IJKL to move / rotate left-right or up-down</li>
-<li>use F to move forward</li>
-<li>use B or V to move backward</li>
-<li>use M to switch to MOVE mode</li>
-<li>use R to switch to ROTATE mode</li>
-<li>use SPACE to reset vertical orientation</li>
-<li>use the keys: S, N to toggle/change the skybox</li>
-</ul>
+      <p>
+	You can travel within bounding box of the stage. 
+	The frame of this box is visible.
+	When you reach the border of the bounding box, you are automatically 
+	switched to ROTATE mode. 
+	(ROTATE mode is more suitable for finding orientation. If you do not see any objects, then set UPRIGHT and start rotating either left or right.
+	You should notice at least a line of the bounding-box frame.)
+      </p>
 
-<p>The screen is divided into 3x3 sectors.
-You can also activate actions by clicking sectors on the screen.
-You stop actions by clicking on the screen.</p>
+      <h3>Hints: </h3>
 
-<p>You can travel within bounding box of the stage. 
-The frame of this box is visible.
-When you reach the bounding box, you are automatically 
-switched to ROTATE mode. 
-It is more suitable for regaining orientation.</p>
-
-<h3>Hints: </h3>
-
-<ul>
-<li><p>MOVE mode can be used for systematic scanning of the stage
-in the search for an object. </p></li>
-<li><p>When you are close to the object, it is easier to
-navigate toward the object in the ROTATE mode.</p></li>
-</ul>
+      <ul>
+	<li><p>MOVE mode can be used for systematic scanning of the stage
+	    in the search for an object. </p></li>
+	<li><p>When you are close to the object, it is easier to
+	    navigate toward the object in the ROTATE mode.</p></li>
+      </ul>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/mki1967/mkisg-chrome">Mkisg-chrome</a> is maintained by <a href="https://github.com/mki1967">mki1967</a>.</span>
@@ -93,6 +148,6 @@ navigate toward the object in the ROTATE mode.</p></li>
 
     </section>
 
-  
+    
   </body>
 </html>

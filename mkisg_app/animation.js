@@ -7,7 +7,7 @@ animation.startTime=0 // global starting time
 animation.lastTime=0  // time of last animation
 animation.deltaTime=0 // delta between the last and this animation
 
-animation.movSpeed= 0.01 // move per milisecond
+animation.movSpeed= 0.016 // move per milisecond
 animation.rotSpeed= 0.05 // rotation per milisecond
 
 animation.movUp= function(){
