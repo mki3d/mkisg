@@ -6,6 +6,6 @@ and run bash script in THIS directory:
 
 to update the file `index.json`
 
-(Do not forget to commit the changes to the repository.)
+(Note for myself: Do not forget to commit the changes to the repository ;-)
 
 
