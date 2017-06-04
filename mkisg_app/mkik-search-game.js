@@ -556,9 +556,9 @@ function startGame()
 
     setTimeout(
 	function(){
-	    showMessage("MORE INFO ON "
+	    showMessage("MORE INFO ON: "
 			+"<a target='_blank' href='https://mki1967.github.io/mkisg-chrome/'>"
-			+"THE GAME WEB-PAGE</a>?"
+			+"THE GAME WEB-PAGE</a>"
 		       )
 	}, 5000 /* ms */);
     
