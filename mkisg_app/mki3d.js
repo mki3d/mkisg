@@ -11,7 +11,7 @@ loadedStage={}
 function loadIndexHandler( input ) {
     mki3dIndex=JSON.parse( input );
     mki3dIndex.newLoaded=true;
-    console.log( mki3dIndex ); // test
+    // console.log( mki3dIndex ); // test
     startLoadingToken(); //cascading loading
 }
 
@@ -23,26 +23,26 @@ function startLoadingToken() {
 function loadTokenHandler( input ) {
     mki3dToken=JSON.parse( input );
     mki3dToken.newLoaded=true;
-    console.log("TOKEN");
-    console.log( mki3dToken ); // test
+    // console.log("TOKEN");
+    // console.log( mki3dToken ); // test
     startLoadingStage(); // cascading loading
 }
 
 function startLoadingStage() {
     var name= mki3dIndex.stages[ Math.floor(Math.random()*mki3dIndex.stages.length) ];
     startLoading('mki3d/stages/'+name, loadStageHandler );
-    console.log(name);
+    // console.log(name);
 }
 
 function loadStageHandler( input ) {
     mki3dStage=JSON.parse( input );
     mki3dStage.newLoaded=true;
-    console.log( mki3dStage ); // test
+    // console.log( mki3dStage ); // test
 
     if( mki3dToken.newLoaded ) {
 	loadedStage =  makeStage(mki3dStage, mki3dToken);
 	loadedStage.newLoaded=true;
-	console.log( loadedStage );
+	// console.log( loadedStage );
     }
 }
 

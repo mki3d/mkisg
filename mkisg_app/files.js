@@ -1,9 +1,11 @@
-/* TEST */
 
+
+/* TEST HANDLER */
+/*
 function inputHandler( input ) {
     console.log(input)
 }
-
+*/
 
 function startLoading( path, inputHandler ) {    
     errorHandler=function(err){

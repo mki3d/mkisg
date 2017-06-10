@@ -98,7 +98,7 @@ function onKeyDown(e){
 	/*
 	case 84: // T
 	// test loading of resource
-	console.log('TESTING:');
+	// console.log('TESTING:');
 	startLoading( 'mki3d/index.json', loadIndexHandler );
 	break;
 	*/
