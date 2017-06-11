@@ -23,6 +23,17 @@ After collecting the last token, you are transferred to another
 randomly selected stage.
 Sometimes it is hard to find all the tokens, since they can be anywhere.
 
+### MKI3D
+
+Now, the game contains stages directly designed with [MKI3D MODELLER](https://mki1967.github.io/mki3d/). 
+In the Git repository of the game you can find them in the sub-directory: `mkisg_app/mki3d/stages/` . 
+If you want to design and play in your own stages then read the file: `mkisg_app/mki3d/README.md` for instructions how to update the index of stages.
+To run the game with your stages on your computer you have to start a local http server and open it
+in a web browser.
+See the [Big list of http static server one-liners](https://gist.github.com/willurd/5720255).
+On Chrome you can also use [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?utm_source=chrome-app-launcher-info-dialog) for this purpose.
+
+
 
 ## INSTRUCTIONS:
 
@@ -37,8 +48,20 @@ They only restrict visibility.
 * use M to switch to MOVE mode
 * use R to switch to ROTATE mode
 * use SPACE to reset vertical orientation
+* use the keys: S, N to toggle or change the sky-box
+* use X to restart random stage
+* use Q ask for the number of remaining tokens
 
-The screen is divided into 3x3 sectors.
+The screen is divided into 3x3 sectors:
+```
+ +---------+---------+---------+
+ | MOVE    | UP      | FORWARD |
+ +---------+---------+---------+
+ | LEFT    | UPRIGHT | RIGHT   |
+ +---------+---------+---------+
+ | ROTATE  | DOWN    | BACK    |
+ +---------+---------+---------+
+```
 You can also activate actions by clicking sectors on the screen.
 You stop actions by clicking on the screen.
 
