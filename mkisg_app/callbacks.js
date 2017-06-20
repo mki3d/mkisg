@@ -95,13 +95,13 @@ function onKeyDown(e){
 	withSkyBox=true;	
 	drawScene();
 	break;
-	/*
+	
 	case 84: // T
-	// test loading of resource
 	// console.log('TESTING:');
-	startLoading( 'mki3d/index.json', loadIndexHandler );
+	animation.MouseUpStopAction =  !animation.MouseUpStopAction;
+	showAndHideMessage( "animation.MouseUpStopAction = "+animation.MouseUpStopAction, 1000 );
 	break;
-	*/
+	
 	case 88: // X
 	// restarting stage
 	withSkyBox=true;	
@@ -120,6 +120,8 @@ function onMouseDown(evt){
       }
     */
 
+    console.log(evt); // test
+    
     if( animation.requestId != 0 ) {
 	animation.stop();
 	return;
@@ -172,13 +174,21 @@ function onMouseDown(evt){
     }
 }
 
-
+function onMouseUp(evt){
+    if( animation.MouseUpStopAction ) {
+	animation.stop();
+    }
+}
 
 /* set game callbacks */
 function setCallbacks(){
+    canvas = document.getElementById("canvasId");
+    canvas.addEventListener("touchstart", onMouseDown, false);
+    canvas.addEventListener("touchend", onMouseUp, false);
     window.onresize=onWindowResize;
     window.onkeydown=onKeyDown;
     window.onmousedown=onMouseDown;
+    window.onmouseup=onMouseUp;
     window.onkeyup=onKeyUp; // cancelling action 
 }
 
@@ -187,5 +197,6 @@ function cancelCallbacks() {
     window.onresize=null;
     window.onkeydown=null;
     window.onmousedown=null;
+    window.onmouseup=null;
     animation.stop(); 
 }
