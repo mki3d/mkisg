@@ -112,26 +112,8 @@ function onKeyDown(e){
 
 
 
-function onMouseDown(evt){
-    /*
-      if(intervalAction !== null) {
-      stopIntervalAction();
-      return;
-      }
-    */
-
-    console.log(evt); // test
-    
-    if( animation.requestId != 0 ) {
-	animation.stop();
-	return;
-    }
-    
-    var wth = parseInt(window.innerWidth);
-    var hth = parseInt(window.innerHeight);
-    var xSector= Math.floor(3*evt.clientX/wth);
-    var ySector= Math.floor(3*evt.clientY/hth);
-    var sectorString = ""+xSector+","+ySector;
+function sectorAction(xSector, ySector){
+   var sectorString = ""+xSector+","+ySector;
 
     switch(sectorString)
     {
@@ -173,6 +155,29 @@ function onMouseDown(evt){
 
     }
 }
+
+function onMouseDown(evt){
+    /*
+      if(intervalAction !== null) {
+      stopIntervalAction();
+      return;
+      }
+    */
+
+    console.log(evt); // test
+    
+    if( animation.requestId != 0 ) {
+	animation.stop();
+	return;
+    }
+    
+    var wth = parseInt(window.innerWidth);
+    var hth = parseInt(window.innerHeight);
+    var xSector= Math.floor(3*evt.clientX/wth);
+    var ySector= Math.floor(3*evt.clientY/hth);
+
+    sectorAction(xSector, ySector);
+ }
 
 function onMouseUp(evt){
     if( animation.MouseUpStopAction ) {
