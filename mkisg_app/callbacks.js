@@ -95,13 +95,13 @@ function onKeyDown(e){
 	withSkyBox=true;	
 	drawScene();
 	break;
-	/*
+	
 	case 84: // T
-	// test loading of resource
 	// console.log('TESTING:');
-	startLoading( 'mki3d/index.json', loadIndexHandler );
+	animation.MouseUpStopAction =  !animation.MouseUpStopAction;
+	showAndHideMessage( "animation.MouseUpStopAction = "+animation.MouseUpStopAction, 1000 );
 	break;
-	*/
+	
 	case 88: // X
 	// restarting stage
 	withSkyBox=true;	
@@ -112,24 +112,8 @@ function onKeyDown(e){
 
 
 
-function onMouseDown(evt){
-    /*
-      if(intervalAction !== null) {
-      stopIntervalAction();
-      return;
-      }
-    */
-
-    if( animation.requestId != 0 ) {
-	animation.stop();
-	return;
-    }
-    
-    var wth = parseInt(window.innerWidth);
-    var hth = parseInt(window.innerHeight);
-    var xSector= Math.floor(3*evt.clientX/wth);
-    var ySector= Math.floor(3*evt.clientY/hth);
-    var sectorString = ""+xSector+","+ySector;
+function sectorAction(xSector, ySector){
+   var sectorString = ""+xSector+","+ySector;
 
     switch(sectorString)
     {
@@ -172,13 +156,60 @@ function onMouseDown(evt){
     }
 }
 
+function onMouseDown(evt){
 
+    // console.log(evt); // test
+    
+    if( animation.requestId != 0 ) {
+	animation.stop();
+	return;
+    }
+    
+    var wth = parseInt(window.innerWidth);
+    var hth = parseInt(window.innerHeight);
+    var xSector= Math.floor(3*evt.clientX/wth);
+    var ySector= Math.floor(3*evt.clientY/hth);
+
+    sectorAction(xSector, ySector);
+ }
+
+function onMouseUp(evt){
+    if( animation.MouseUpStopAction ) {
+	animation.stop();
+    }
+}
+
+function onTouchDown(evt){
+    evt.preventDefault();
+    // console.log(evt); // test
+    
+    if( animation.requestId != 0 ) {
+	animation.stop();
+	return;
+    }
+    
+    var wth = parseInt(window.innerWidth);
+    var hth = parseInt(window.innerHeight);
+    var xSector= Math.floor(3*evt.touches[0].clientX/wth);
+    var ySector= Math.floor(3*evt.touches[0].clientY/hth);
+
+    sectorAction(xSector, ySector);
+ }
+
+function onTouchUp(evt){
+    evt.preventDefault();
+    animation.stop();
+}
 
 /* set game callbacks */
 function setCallbacks(){
+    canvas = document.getElementById("canvasId");
+    canvas.addEventListener("touchstart", onTouchDown, false);
+    canvas.addEventListener("touchend", onTouchUp, false);
     window.onresize=onWindowResize;
     window.onkeydown=onKeyDown;
     window.onmousedown=onMouseDown;
+    window.onmouseup=onMouseUp;
     window.onkeyup=onKeyUp; // cancelling action 
 }
 
@@ -187,5 +218,6 @@ function cancelCallbacks() {
     window.onresize=null;
     window.onkeydown=null;
     window.onmousedown=null;
+    window.onmouseup=null;
     animation.stop(); 
 }
