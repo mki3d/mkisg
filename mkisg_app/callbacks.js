@@ -158,7 +158,7 @@ function sectorAction(xSector, ySector){
 
 function onMouseDown(evt){
 
-    console.log(evt); // test
+    // console.log(evt); // test
     
     if( animation.requestId != 0 ) {
 	animation.stop();
@@ -181,7 +181,7 @@ function onMouseUp(evt){
 
 function onTouchDown(evt){
     evt.preventDefault();
-    console.log(evt); // test
+    // console.log(evt); // test
     
     if( animation.requestId != 0 ) {
 	animation.stop();
