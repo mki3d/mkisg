@@ -85,6 +85,7 @@ animation.right[ACTION_MOVE]= animation.movRight;
 animation.right[ACTION_ROTATE]= animation.rotRight;
 
 animation.keyAction=false; // indicates that current animation is caused by key press
+animation.KeyUpStopAction = false; // keyUp event stops action
 
 /* callback(animation) -- performs callbacks using animation parameters */
 animation.start= function( callback ) {
