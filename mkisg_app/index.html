@@ -4,83 +4,41 @@
     <title>SEARCHING GAME</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="assets/mki_icon_16.png"/>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-52437368-3', 'auto');
-      ga('send', 'pageview');
-
-    </script>
+    <script src="ga.js"> </script>
   </head>
 
   <body>
-    <script src="global-data.js"></script>
-    <script src="stage-functions.js"></script>
-    <script src="sectors.js"></script>
-    <script src="move_2x2.js"></script>
-    <script src="rotate_2x2.js"></script>
+    <script src="js/global-data.js"></script>
+    <script src="js/stage-functions.js"></script>
+    <script src="js/sectors.js"></script>
+    <script src="js/move_2x2.js"></script>
+    <script src="js/rotate_2x2.js"></script>
 
 
-    <script src="stage1.js"></script>
-    <script src="insertNewStage.js"></script>
-    <!--
+    <script src="stage/stage1.js"></script>
+    <script src="js/insertNewStage.js"></script>
+ 
+    <script src="stage/stage5.js"></script>
+    <script src="js/insertNewStage.js"></script>
 
-	<script src="stage3.js"></script>
-	<script src="insertNewStage.js"></script>
+    <script src="stage/stage7.js"></script>
+    <script src="js/insertNewStage.js"></script>
 
-	<script src="stage4.js"></script>
-	<script src="insertNewStage.js"></script>
+    <script src="stage/stage2.js"></script>
+    <script src="js/insertNewStage.js"></script>
 
-	<script src="stage6.js"></script>
-	<script src="insertNewStage.js"></script>
-
-	<script src="stage8.js"></script>
-	<script src="insertNewStage.js"></script>
-
-	<script src="stage9.js"></script>
-	<script src="insertNewStage.js"></script>
-	
-	<script src="stage-2015-08-12.js"></script>
-	<script src="insertNewStage.js"></script>
-
-    <script src="stage-2015-09-06.js"></script>
-    <script src="insertNewStage.js"></script>
+    <script src="stage/welcome-mki.js"></script>
+    <script src="js/insertNewStage.js"></script>
 
 
+    <script src="js/skybox_utils2.js"></script>
+    <script src="js/message.js"></script>
+    <script src="js/animation.js"></script>
+    <script src="js/callbacks.js"></script>
+    <script src="js/files.js"></script>
+    <script src="js/mki3d.js"></script>
+    <script src="js/mkik-search-game.js"></script>
 
-
-
-	-->
-
-    <script src="stage5.js"></script>
-    <script src="insertNewStage.js"></script>
-
-    <script src="stage7.js"></script>
-    <script src="insertNewStage.js"></script>
-
-    <script src="stage2.js"></script>
-    <script src="insertNewStage.js"></script>
-<!--
-    <script src="welcome.js"></script>
-    <script src="insertNewStage.js"></script>
--->
-    <script src="welcome-mki.js"></script>
-    <script src="insertNewStage.js"></script>
-
-
-    <script src="skybox_utils2.js"></script>
-    <script src="message.js"></script>
-    <script src="animation.js"></script>
-    <script src="callbacks.js"></script>
-    <script src="files.js"></script>
-    <script src="mki3d.js"></script>
-    <script src="mkik-search-game.js"></script>
-    <!---
-	<div> You can find more info on <a href="https://github.com/mki1967" target="_blank">https://github.com/mki1967</a> </div>
-	-->
     <div id="canvasDiv" style="position: relative;">
       <canvas id="canvasId" width="640" height="400"  style="border:0px; margin: 0px; padding: 0px;" >
 	Your browser does not support the canvas element.
