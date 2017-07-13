@@ -81,7 +81,6 @@ function onKeyDown(e){
 	setAction(ACTION_ROTATE);
 	break;
 	case 81: // Q
-	// alert("remaining tokens: "+tokenPositions.remaining);
 	showAndHideMessage("REMAINING TOKENS: "+tokenPositions.remaining,  MESSAGE_DELAY);
 	break;
 	case 83: // S
@@ -97,15 +96,22 @@ function onKeyDown(e){
 	break;
 	
 	case 84: // T
-	// console.log('TESTING:');
 	animation.MouseUpStopAction =  !animation.MouseUpStopAction;
-	showAndHideMessage( "animation.MouseUpStopAction = "+animation.MouseUpStopAction, 1000 );
+	showAndHideMessage( "INERTIA: "+(!animation.MouseUpStopAction), 1000 );
 	break;
 	
 	case 88: // X
 	// restarting stage
 	withSkyBox=true;	
 	startGame();
+	break;
+	
+	case 27: // escape
+	hideMessage();
+	break;
+	
+	case 72: // H
+	showMessage(helpMessage);
 	break;
     }
 }

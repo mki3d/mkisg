@@ -551,7 +551,7 @@ function startGame()
     drawScene();
 
     showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!"
-		+" (Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions.)<br>"
+		+" (Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions. 'H' - help.)<br>"
 	       );
 
     setTimeout(
