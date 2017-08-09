@@ -167,8 +167,14 @@ var IdMatrix = glMatrix4(1,   0,   0,   0,
 
 function projectionMatrix(projection)
 {
-    var xx=  projection.zoomY*projection.screenY/projection.screenX;
-    var yy=  projection.zoomY;
+    var zoomY =  projection.zoomY;
+
+    if ( projection.screenY > projection.screenX ) {
+	zoomY =  projection.zoomY/(projection.screenY/projection.screenX);
+    }
+    
+    var xx=  zoomY*projection.screenY/projection.screenX;
+    var yy=  zoomY;
     var zz=  (projection.zFar+projection.zNear)/(projection.zFar-projection.zNear);
     var zw= 1;
     var wz= -2*projection.zFar*projection.zNear/(projection.zFar-projection.zNear);
