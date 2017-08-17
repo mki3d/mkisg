@@ -23,12 +23,17 @@
       "sizes": "144x144"
     },
     {
-      "src": ".assets/mki_icon_48.png",
+      "src": "./assets/mki_icon_48.png",
       "type": "image/png",
       "sizes": "48x48"
     },
     {
-      "src": "mki_icon_192x192.png",
+      "src": "./assets/mkisg_icon_512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "./assets/mki_icon_192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     }

@@ -1,6 +1,6 @@
 /*
   service worker for mkisg.html
-  Version: 0.0.1
+  Version: 0.0.2
 */
 
 self.addEventListener('install', e => {
