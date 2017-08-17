@@ -1,0 +1,22 @@
+{
+  "dir": "ltr",
+  "lang": "en",
+  "name": "SEARCHING GAME",
+  "scope": "/mkisg-chrome/mkisg_app/index.html",
+  "display": "browser",
+  "start_url": "/mkisg-chrome/mkisg_app/index.html",
+  "short_name": "SEARCHING GAME",
+  "theme_color": "transparent",
+  "description": "",
+  "orientation": "any",
+  "background_color": "transparent",
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "https://mki1967.github.io/mkisg-chrome/mkisg_app/assets/mki_icon_16.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    }
+  ]
+}

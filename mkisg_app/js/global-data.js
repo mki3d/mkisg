@@ -49,7 +49,7 @@ var frameBox = {};  // framebox for better orientation
 var projection = {}; 
 projection.zNear = 0.25;
 projection.zFar  = 300;
-projection.zoomY = 3.0;
+projection.zoomY = 2.5;
 projection.screenX=640;
 projection.screenY=400;
 
