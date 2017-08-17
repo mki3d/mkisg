@@ -5,7 +5,19 @@
     <title>SEARCHING GAME</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/png" href="assets/mki_icon_16.png"/>
+    <link rel="manifest" href="./pwa-manifest.json">
     <script src="ga.js"> </script>
+    <script>
+      if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('Service Worker registered', reg))
+      .catch(err => console.error('Service Worker **not** registered', err));
+      }
+      else {
+      console.warn('Service Worker not supported in this browser');
+      }    
+    </script>
+
   </head>
 
   <body>
