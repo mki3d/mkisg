@@ -381,6 +381,9 @@ function initBuffers(graph) {
 }
 
 function drawAlert(alertGraph, size) {
+    gl.useProgram(shaderProgram);
+
+    
     var	myMatrix= glMatrix4(
 	1/size,      0,      0,    0,
 	0,      1/size,      0,    0,
@@ -401,6 +404,8 @@ function drawAlert(alertGraph, size) {
 }
 
 function drawSectors() {
+    gl.useProgram(shaderProgram);
+
     // draw sectors
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, 
 			glMatrix4(

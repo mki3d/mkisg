@@ -1,6 +1,6 @@
 /*
   service worker for mkisg.html
-  Version: 0.0.2
+  Version: 0.0.3
 */
 
 self.addEventListener('install', e => {
@@ -20,6 +20,17 @@ self.addEventListener('install', e => {
     );
 
 });
+
+self.addEventListener('activate', e => {
+    e.waitUntil(
+	caches.keys().then( keys =>
+			    {
+				console.log( keys )
+			    }
+			  )
+    )
+});
+
 
 self.addEventListener('fetch', e => {
     e.respondWith(
