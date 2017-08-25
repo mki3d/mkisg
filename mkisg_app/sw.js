@@ -1,9 +1,9 @@
 /*
   service worker for mkisg.html
-  Version: 0.0.6
+  Version: 0.0.7
 */
 
-var currentCacheName='pwa-assets_0.0.6';
+var currentCacheName='pwa-assets_0.0.7';
 
 self.addEventListener('install', e => {
     e.waitUntil(
