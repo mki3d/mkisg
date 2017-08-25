@@ -1,11 +1,13 @@
 /*
   service worker for mkisg.html
-  Version: 0.0.3
+  Version: 0.0.6
 */
+
+var currentCacheName='pwa-assets_0.0.6';
 
 self.addEventListener('install', e => {
     e.waitUntil(
-	caches.open('pwa-assets').then(cache => 
+	caches.open(currentCacheName).then(cache => 
 				       {
 					   
 					   return fetch('files-to-cache.json').then(response => {
@@ -23,9 +25,16 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
     e.waitUntil(
-	caches.keys().then( keys =>
+	caches.keys().then( cacheNames =>
 			    {
-				console.log( keys )
+				console.log(cacheNames); // test
+				let toDelete = cacheNames.filter(
+					name => name.localeCompare(currentCacheName) != 0
+				);
+				console.log(toDelete);  // test
+				return Promise.all (
+				    toDelete.map( cacheName  => caches.delete(cacheName) )
+				);
 			    }
 			  )
     )
