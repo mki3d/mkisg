@@ -7,7 +7,7 @@
     "short_name": "MKI_SG",
     "theme_color": "transparent",
     "description": "Searching in 3D stages",
-    "orientation": "landscape-primary",
+    "orientation": "landscape",
     "background_color": "#0000FF",
     "theme_color": "#0000FF",
     "related_applications": [],
