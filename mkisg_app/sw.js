@@ -1,9 +1,10 @@
 /*
-  service worker for mkisg.html
-  Version: 0.0.8
+  service worker for mki3d.html
 */
 
-var currentCacheName='pwa-assets_0.0.8';
+var appName = 'mkisg';
+var version = '0.0.9';
+var currentCacheName= appName+'_'+version;
 
 self.addEventListener('install', e => {
     e.waitUntil(
@@ -29,7 +30,8 @@ self.addEventListener('activate', e => {
 			    {
 				console.log(cacheNames); // test
 				let toDelete = cacheNames.filter(
-					name => name.localeCompare(currentCacheName) != 0
+				    name => name.localeCompare(currentCacheName) != 0 && name.includes(appName)
+					|| name.includes('pwa-assets') // stale names up to version 0.0.8
 				);
 				console.log(toDelete);  // test
 				return Promise.all (
