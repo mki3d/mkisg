@@ -3,7 +3,7 @@
 */
 
 var appName = 'mkisg';
-var version = '0.0.9';
+var version = '0.0.10';
 var currentCacheName= appName+'_'+version;
 
 self.addEventListener('install', e => {
@@ -30,7 +30,7 @@ self.addEventListener('activate', e => {
 			    {
 				console.log(cacheNames); // test
 				let toDelete = cacheNames.filter(
-				    name => name.localeCompare(currentCacheName) != 0 && name.includes(appName)
+				    name => name.localeCompare(currentCacheName) != 0 && name.includes(appName+'_')
 					|| name.includes('pwa-assets') // stale names up to version 0.0.8
 				);
 				console.log(toDelete);  // test
