@@ -21,6 +21,7 @@
 "js/stage-functions.js",
 "mki3d/index.json",
 "mki3d/tokens/item.mki3d",
+"mki3d/stages/meander-stage.mki3d",
 "mki3d/stages/stage10.mki3d",
 "mki3d/stages/stage1.mki3d",
 "mki3d/stages/stage-2016-08-10.mki3d",
