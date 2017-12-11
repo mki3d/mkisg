@@ -11,6 +11,7 @@
 "js/files.js",
 "js/global-data.js",
 "js/insertNewStage.js",
+"js/math.js",
 "js/message.js",
 "js/mki3d.js",
 "js/mkik-search-game.js",

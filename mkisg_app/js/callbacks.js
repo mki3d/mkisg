@@ -70,7 +70,12 @@ function onKeyDown(e){
 	animation.start( animation.movBack )
 	break;
 	case 32: // space
-	traveler.rotYZ=0; drawScene();
+	if( traveler.rotYZ==0) {
+	    traveler.rotXZ= nearestRightAngle(traveler.rotXZ);
+	} else {
+	    traveler.rotYZ=0;
+	}
+	drawScene();
 	break;
 	case 77: // M
 	// currentAction = ACTION_MOVE;
@@ -119,7 +124,7 @@ function onKeyDown(e){
 
 
 function sectorAction(xSector, ySector){
-   var sectorString = ""+xSector+","+ySector;
+    var sectorString = ""+xSector+","+ySector;
 
     switch(sectorString)
     {
@@ -148,7 +153,12 @@ function sectorAction(xSector, ySector){
 	animation.start( animation.movBack )
 	break;
 	case "1,1":
-	traveler.rotYZ=0; drawScene();
+	if( traveler.rotYZ == 0) {
+	    traveler.rotXZ= nearestRightAngle(traveler.rotXZ);
+	} else {
+	    traveler.rotYZ=0;
+	}
+	drawScene();
 	break;
 	case "0,0":
 	// currentAction = ACTION_MOVE;
@@ -177,7 +187,7 @@ function onMouseDown(evt){
     var ySector= Math.floor(3*evt.clientY/hth);
 
     sectorAction(xSector, ySector);
- }
+}
 
 function onMouseUp(evt){
     if( animation.MouseUpStopAction ) {
@@ -200,7 +210,7 @@ function onTouchDown(evt){
     var ySector= Math.floor(3*evt.touches[0].clientY/hth);
 
     sectorAction(xSector, ySector);
- }
+}
 
 function onTouchUp(evt){
     evt.preventDefault();
