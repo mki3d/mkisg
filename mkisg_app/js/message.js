@@ -55,4 +55,4 @@ var helpMessage = `
     <dt>Escape:</dt>
     <dd>Hide the message box</dd>
     </dl>
-    `
+    `+chromeMessage

@@ -566,6 +566,7 @@ function startGame()
 
     showMessage("COLLECT "+tokenPositions.remaining+" TOKENS!"
 		+" (Click on the screen sectors to select ROTATE/MOVE mode or to activate/stop actions. 'H' - help.)<br>"
+		+ chromeMessage
 	       );
 
     setTimeout(
@@ -574,7 +575,7 @@ function startGame()
 			+"<a target='_blank' href='https://mki1967.github.io/mkisg-chrome/'>"
 			+"THE GAME WEB-PAGE</a>"
 		       )
-	}, 5000 /* ms */);
+	}, 9000 /* ms */);
     
     
     startTime = (new Date()).getTime();
