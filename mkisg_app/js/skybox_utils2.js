@@ -150,7 +150,15 @@ var sbx_makeRenderTextureShaderProgram= function (gl){
 	gl.bufferData(gl.ARRAY_BUFFER, new Float32Array( hIn ) , gl.STATIC_DRAW );
     }
 
+    if( gl.getError() != gl.NO_ERROR ) sbx_Disable();
+
 };
+
+
+sbx_Disable= function(){
+    console.log("Disabling skybox to to GL ERROR")
+    sbx_makeShaderProgram= sbx_renderRandomCube= sbx_makeRenderTextureShaderProgram= sbx_makeShaderProgramTool= sbx_drawSkybox= function(){}
+}
 
 
 /* texture parameters */
