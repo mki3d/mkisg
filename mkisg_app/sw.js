@@ -3,14 +3,13 @@
 */
 
 var appName = 'mkisg';
-var version = '0.10.1';
+var version = '0.11';
 var currentCacheName= appName+'_'+version;
 
 self.addEventListener('install', e => {
     e.waitUntil(
-	caches.open(currentCacheName).then(cache => 
+	caches.open(currentCacheName).then(cache =>
 				       {
-					   
 					   return fetch('files-to-cache.json').then(response => {
 					       return response.json();
 					   } ).then( files => {
