@@ -28,9 +28,27 @@ function loadTokenHandler( input ) {
     startLoadingStage(); // cascading loading
 }
 
+var LastLoadedStage=-1;  // remember last loaded stage index
+
 function startLoadingStage() {
-    var name= mki3dIndex.stages[ Math.floor(Math.random()*mki3dIndex.stages.length) ];
+    /* rewritten from mki3dgame: preventing reloading of the same stage */
+    let stages = mki3dIndex.stages.length;
+    let n = stages
+
+    if (stages >= 2 && LastLoadedStage >= 0) { // if we have at least 2 stages and at something has been loaded
+		n = stages - 1
+    }
+
+    let r = (LastLoadedStage + 1 + Math.floor(Math.random()*n) ) % stages // if n==stages-1 then should select any stage different from  the last one
+
+    /// var name= mki3dIndex.stages[ Math.floor(Math.random()*mki3dIndex.stages.length) ];  ///  old
+    let  name= mki3dIndex.stages[r]; // new
     startLoading('mki3d/stages/'+name, loadStageHandler );
+    
+    console.log("r=="+r+" LastLoadedStage=="+LastLoadedStage) /// tests
+    if ( r == LastLoadedStage ) console.log("RELOADED THE SAME STAGE: "+r+"!!!") /// tests
+    
+    LastLoadedStage=r ; // record the index of the loaded stage
     // console.log(name);
 }
 
