@@ -532,7 +532,7 @@ function startGame()
             stageArray.pop(); // use welcome stage only once
 	}
 	else{
-	    /* swap the last stage with rangom other for the next time stage */
+	    /* swap the last stage with random other for the next time stage */
 	    /* we assume that there are still at least two stages */
 	    var idx = Math.floor(Math.random()*(stageArray.length-1));
 	    var tmp= stageArray[idx];
@@ -571,7 +571,7 @@ function startGame()
 
     setTimeout(
 	function(){
-	    showMessage("MORE INFO ON: "
+	    showMessage("SEARCHING GAME WITH "+mki3dIndex.stages.length+" STAGES.<br>MORE INFO ON: "
 			+"<a target='_blank' href='https://mki1967.github.io/mkisg-chrome/'>"
 			+"THE GAME WEB-PAGE</a>"
 		       )
