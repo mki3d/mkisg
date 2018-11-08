@@ -24,6 +24,7 @@
 "js/stage-functions.js",
 "mki3d/index.json",
 "mki3d/tokens/item.mki3d",
+"mki3d/stages/2016-11-11.mki3d",
 "mki3d/stages/cubic-stage.mki3d",
 "mki3d/stages/electro-snail-stage.mki3d",
 "mki3d/stages/meander-stage.mki3d",
@@ -43,4 +44,5 @@
 "mki3d/stages/stage8.mki3d",
 "mki3d/stages/stage9.mki3d",
 "mki3d/stages/stage-castle-3a.mki3d",
+"mki3d/stages/wiatrak-stage.mki3d",
 "mki3d/stages/x-tiles-stage.mki3d"]

@@ -1,7 +1,8 @@
 {
 "tokens":["item.mki3d"]
 ,
-"stages":["cubic-stage.mki3d",
+"stages":["2016-11-11.mki3d",
+"cubic-stage.mki3d",
 "electro-snail-stage.mki3d",
 "meander-stage.mki3d",
 "MKI3D-stage-1.mki3d",
@@ -20,5 +21,6 @@
 "stage8.mki3d",
 "stage9.mki3d",
 "stage-castle-3a.mki3d",
+"wiatrak-stage.mki3d",
 "x-tiles-stage.mki3d"]
 }
